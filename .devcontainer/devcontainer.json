@@ -1,0 +1,8 @@
+{
+  "name": "MonitorNet",
+  "image": "ghcr.io/beehivejava/template:azure",
+  "postCreateCommand": "pre-commit install --install-hooks",
+  "forwardPorts": [
+    7071
+  ]
+}
