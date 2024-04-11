@@ -1,0 +1,69 @@
+---
+name: deploy
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  infrastructure:
+    runs-on: ubuntu-latest
+
+    outputs:
+      api: ${{ steps.deploy.outputs.api }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Bicep deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RESOURCEGROUP }}
+        template: MonitorNet.Infrastructure/main.bicep
+        failOnStdErr: true
+      id: deploy
+
+  api:
+    runs-on: ubuntu-latest
+    needs: infrastructure
+
+    env:
+      FUNCTION_DIRECTORY: MonitorNet.Functions.Api
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+    - name: Dotnet setup
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Dotnet restore
+      run: dotnet restore
+      working-directory: ${{ env.FUNCTION_DIRECTORY }}
+
+    - name: Dotnet publish
+      run: dotnet publish --output ./output
+      working-directory: ${{ env.FUNCTION_DIRECTORY }}
+
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Azure deploy
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ needs.infrastructure.outputs.api }}
+        package: ${{ env.FUNCTION_DIRECTORY }}/output
