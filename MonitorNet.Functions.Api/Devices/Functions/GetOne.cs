@@ -1,13 +1,20 @@
+using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using MonitorNet.Functions.Api.Devices.Interfaces;
+using MonitorNet.Functions.Api.Devices.Models;
 
 namespace MonitorNet.Functions.Api;
 
 internal class GetOne(IDeviceService service)
 {
     [Function("DevicesGetOne")]
+    [OpenApiOperation(operationId: "GetOne", tags: ["Devices"])]
+    [OpenApiParameter(name: "id", Required = true)]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Device))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<IActionResult> RunAsync(
         [HttpTrigger(AuthorizationLevel.Anonymous, nameof(HttpMethod.Get), Route = "devices/{id}")]
         HttpRequest request,
