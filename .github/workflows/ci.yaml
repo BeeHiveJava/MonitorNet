@@ -21,17 +21,20 @@ jobs:
       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
     - name: Azure login
-      uses: azure/login@v1
+      uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Bicep deploy (what-if)
-      uses: azure/arm-deploy@v1
+      uses: azure/arm-deploy@v2
       with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RESOURCEGROUP }}
+        subscriptionId: ${{ vars.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ vars.AZURE_RESOURCEGROUP }}
         template: MonitorNet.Infrastructure/main.bicep
-        parameters: devicesToken=${{ secrets.BALENA_TOKEN }}
+        parameters: >-
+          fncDevicesToken=${{ secrets.BALENA_TOKEN }}
+          apimPublisherName=${{ secrets.APIM_PUBLISHER_NAME }}
+          apimPublisherEmail=${{ secrets.APIM_PUBLISHER_EMAIL }}
         additionalArguments: --what-if
 
   test:
@@ -41,7 +44,7 @@ jobs:
       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
     - name: Dotnet setup
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 

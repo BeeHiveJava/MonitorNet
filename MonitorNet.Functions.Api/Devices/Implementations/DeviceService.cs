@@ -1,7 +1,6 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.Extensions.Options;
-using MonitorNet.Functions.Api.Devices.Functions;
 using MonitorNet.Functions.Api.Devices.Helpers;
 using MonitorNet.Functions.Api.Devices.Interfaces;
 using MonitorNet.Functions.Api.Devices.Models;

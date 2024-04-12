@@ -3,7 +3,11 @@ param environment string = resourceGroup().tags.environment
 param location string = resourceGroup().location
 
 @secure()
-param devicesToken string
+param fncDevicesToken string
+@secure()
+param apimPublisherName string
+@secure()
+param apimPublisherEmail string
 
 resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: 'st${application}${environment}001'
@@ -43,8 +47,22 @@ module api './api.bicep' = {
     serverFarmId: plan.id
     storageAccountName: storage.name
     storageAccountKey: storage.listKeys().keys[0].value
-    devicesToken: devicesToken
+    devicesToken: fncDevicesToken
   }
 }
 
-output api string = api.outputs.name
+module management './management.bicep' = {
+  name: 'management'
+  params: {
+    application: application
+    environment: environment
+    location: location
+    publisherName: apimPublisherName
+    publisherEmail: apimPublisherEmail
+    functionAppId: api.outputs.id
+  }
+}
+
+output apim_name string = management.outputs.name
+output api_name string = api.outputs.name
+output api_uri string = api.outputs.uri
