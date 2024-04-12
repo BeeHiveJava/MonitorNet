@@ -4,5 +4,12 @@
   "postCreateCommand": "pre-commit install --install-hooks",
   "forwardPorts": [
     7071
-  ]
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-apimanagement"
+      ]
+    }
+  }
 }

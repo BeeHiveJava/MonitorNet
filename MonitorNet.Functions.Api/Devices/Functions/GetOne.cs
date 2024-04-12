@@ -16,7 +16,7 @@ internal class GetOne(IDeviceService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Device))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<IActionResult> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, nameof(HttpMethod.Get), Route = "devices/{id}")]
+        [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethod.Get), Route = "devices/{id}")]
         HttpRequest request,
         string id)
     {

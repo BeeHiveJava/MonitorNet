@@ -55,3 +55,4 @@ resource function 'Microsoft.Web/sites@2023-01-01' = {
 }
 
 output name string = function.name
+output uri string = 'https://${function.properties.defaultHostName}'

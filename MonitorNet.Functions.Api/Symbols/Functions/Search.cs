@@ -17,7 +17,7 @@ internal class Search(ISymbolService service)
     [OpenApiParameter(name: "exchange", Required = false, In = ParameterLocation.Query)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<Symbol>))]
     public async Task<IActionResult> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, nameof(HttpMethod.Get), Route = "symbols/search")]
+        [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethod.Get), Route = "symbols/search")]
         HttpRequest request)
     {
         var symbol = request.Query["symbol"].FirstOrDefault() ?? string.Empty;

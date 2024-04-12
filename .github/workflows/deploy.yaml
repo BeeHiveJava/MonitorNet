@@ -13,7 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      api: ${{ steps.deploy.outputs.api }}
+      apim_name: ${{ steps.deploy.outputs.apim_name }}
+      api_name: ${{ steps.deploy.outputs.api_name }}
+      api_uri: ${{ steps.deploy.outputs.api_uri }}
 
     steps:
     - name: Checkout code
@@ -27,10 +29,13 @@ jobs:
     - name: Bicep deploy
       uses: azure/arm-deploy@v1
       with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RESOURCEGROUP }}
+        subscriptionId: ${{ vars.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ vars.AZURE_RESOURCEGROUP }}
         template: MonitorNet.Infrastructure/main.bicep
-        parameters: devicesToken=${{ secrets.BALENA_TOKEN }}
+        parameters: >-
+          fncDevicesToken=${{ secrets.BALENA_TOKEN }}
+          apimPublisherName=${{ secrets.APIM_PUBLISHER_NAME }}
+          apimPublisherEmail=${{ secrets.APIM_PUBLISHER_EMAIL }}
       id: deploy
 
   api:
@@ -66,5 +71,17 @@ jobs:
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: ${{ needs.infrastructure.outputs.api }}
+        app-name: ${{ needs.infrastructure.outputs.api_name }}
         package: ${{ env.FUNCTION_DIRECTORY }}/output
+
+    - name: Azure apim import
+      uses: azure/cli@v2
+      with:
+        inlineScript: >-
+          az apim api import
+          --api-id "api"
+          --path "api"
+          --resource-group "${{ vars.AZURE_RESOURCEGROUP }}"
+          --service-name "${{ needs.infrastructure.outputs.apim_name }}"
+          --specification-url "${{ needs.infrastructure.outputs.api_uri }}/api/openapi/1.0"
+          --specification-format "OpenApiJson"
