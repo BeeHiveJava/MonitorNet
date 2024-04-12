@@ -2,6 +2,9 @@ param application string = resourceGroup().tags.application
 param environment string = resourceGroup().tags.environment
 param location string = resourceGroup().location
 
+@secure()
+param devicesToken string
+
 resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: 'st${application}${environment}001'
   location: location
@@ -40,6 +43,7 @@ module api './api.bicep' = {
     serverFarmId: plan.id
     storageAccountName: storage.name
     storageAccountKey: storage.listKeys().keys[0].value
+    devicesToken: devicesToken
   }
 }
 

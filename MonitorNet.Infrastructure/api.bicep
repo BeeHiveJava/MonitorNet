@@ -6,6 +6,8 @@ param serverFarmId string
 param storageAccountName string
 @secure()
 param storageAccountKey string
+@secure()
+param devicesToken string
 
 resource function 'Microsoft.Web/sites@2023-01-01' = {
   name: 'fncapi${application}${environment}001'
@@ -19,6 +21,10 @@ resource function 'Microsoft.Web/sites@2023-01-01' = {
     siteConfig: {
       netFrameworkVersion: 'v8.0'
       appSettings: [
+        {
+          name: 'Devices:Token'
+          value: devicesToken
+        }
         {
           name: 'AzureWebJobsStorage'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${storageAccountKey}'

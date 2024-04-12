@@ -14,7 +14,27 @@ on:
     - develop
 
 jobs:
-  ci:
+  infrastructure:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Bicep deploy (what-if)
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RESOURCEGROUP }}
+        template: MonitorNet.Infrastructure/main.bicep
+        parameters: devicesToken=${{ secrets.BALENA_TOKEN }}
+        additionalArguments: --what-if
+
+  test:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code

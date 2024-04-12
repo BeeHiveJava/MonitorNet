@@ -1,5 +1,6 @@
 ---
 name: deploy
+concurrency: deploy
 
 # yamllint disable-line rule:truthy
 on:
@@ -29,7 +30,7 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RESOURCEGROUP }}
         template: MonitorNet.Infrastructure/main.bicep
-        failOnStdErr: true
+        parameters: devicesToken=${{ secrets.BALENA_TOKEN }}
       id: deploy
 
   api:
