@@ -6,7 +6,7 @@ param location string
 param publisherName string
 @secure()
 param publisherEmail string
-param functionAppId string
+param backendAppId string
 
 resource management 'Microsoft.ApiManagement/service@2022-08-01' = {
   name: 'apim${application}${environment}001'
@@ -62,7 +62,7 @@ resource key 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
   parent: management
   properties: {
     displayName: 'FunctionAppKey'
-    value: listkeys('${functionAppId}/host/default', '2023-01-01').functionKeys.default
+    value: listkeys('${backendAppId}/host/default', '2023-01-01').functionKeys.default
     secret: true
   }
 }

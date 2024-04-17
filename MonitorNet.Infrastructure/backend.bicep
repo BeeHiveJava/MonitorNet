@@ -9,7 +9,7 @@ param storageAccountKey string
 @secure()
 param devicesToken string
 
-resource function 'Microsoft.Web/sites@2023-01-01' = {
+resource app 'Microsoft.Web/sites@2023-01-01' = {
   name: 'fncapi${application}${environment}001'
   location: location
   kind: 'functionapp'
@@ -54,6 +54,6 @@ resource function 'Microsoft.Web/sites@2023-01-01' = {
   }
 }
 
-output id string = function.id
-output name string = function.name
-output uri string = 'https://${function.properties.defaultHostName}'
+output id string = app.id
+output name string = app.name
+output uri string = 'https://${app.properties.defaultHostName}'
