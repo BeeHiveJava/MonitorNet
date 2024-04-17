@@ -2,6 +2,8 @@
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
     "env.d.ts",
+    "auto-imports.d.ts",
+    "components.d.ts",
     "src/**/*",
     "src/**/*.vue"
   ],
@@ -13,7 +15,12 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "types": [
+      "unplugin-icons/types/vue",
+    ]
   }
 }

@@ -1,14 +1,44 @@
-import { fileURLToPath, URL } from "node:url"
-
-import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
+import { fileURLToPath, URL } from "node:url"
+import AutoImport from "unplugin-auto-import/vite"
+import IconsResolver from "unplugin-icons/resolver"
+import Icons from "unplugin-icons/vite"
+import { PrimeVueResolver } from "unplugin-vue-components/resolvers"
+import Components from "unplugin-vue-components/vite"
+import { defineConfig } from "vite"
 import VueDevTools from "vite-plugin-vue-devtools"
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    VueDevTools()
+    VueDevTools(),
+    Icons({
+      compiler: "vue3"
+    }),
+    AutoImport({
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/,
+        /\.vue\?vue/, // .vue
+        /\.md$/ // .md
+      ],
+      imports: [
+        "vue",
+        "vue-router"
+      ]
+    }),
+    Components({
+      dts: true,
+      dirs: "src/**/*",
+      resolvers: [
+        PrimeVueResolver(),
+        IconsResolver({
+          componentPrefix: "icon",
+          enabledCollections: ["mdi"]
+        })
+      ]
+    })
   ],
   resolve: {
     alias: {
