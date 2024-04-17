@@ -37,7 +37,7 @@ jobs:
           apimPublisherEmail=${{ secrets.APIM_PUBLISHER_EMAIL }}
         additionalArguments: --what-if
 
-  test:
+  backend:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -56,3 +56,26 @@ jobs:
 
     - name: Dotnet test
       run: dotnet test
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    env:
+      FRONTEND_DIRECTORY: MonitorNet.Frontend
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+    - name: Node setup
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Node install
+      run: npm ci
+      working-directory: ${{ env.FRONTEND_DIRECTORY }}
+
+    - name: Node build
+      run: npm run build
+      working-directory: ${{ env.FRONTEND_DIRECTORY }}

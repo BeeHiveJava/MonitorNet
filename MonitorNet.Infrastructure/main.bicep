@@ -38,8 +38,8 @@ resource plan 'Microsoft.Web/serverfarms@2023-01-01' = {
   }
 }
 
-module api './api.bicep' = {
-  name: 'api'
+module backend './backend.bicep' = {
+  name: 'backend'
   params: {
     application: application
     environment: environment
@@ -51,6 +51,15 @@ module api './api.bicep' = {
   }
 }
 
+module frontend './frontend.bicep' = {
+  name: 'frontend'
+  params: {
+    application: application
+    environment: environment
+    location: location
+  }
+}
+
 module management './management.bicep' = {
   name: 'management'
   params: {
@@ -59,10 +68,12 @@ module management './management.bicep' = {
     location: location
     publisherName: apimPublisherName
     publisherEmail: apimPublisherEmail
-    functionAppId: api.outputs.id
+    backendAppId: backend.outputs.id
   }
 }
 
 output apim_name string = management.outputs.name
-output api_name string = api.outputs.name
-output api_uri string = api.outputs.uri
+output backend_app_name string = backend.outputs.name
+output backend_app_uri string = backend.outputs.uri
+output frontend_app_name string = frontend.outputs.name
+output frontend_app_uri string = frontend.outputs.uri

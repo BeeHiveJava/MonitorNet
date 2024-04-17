@@ -14,8 +14,10 @@ jobs:
 
     outputs:
       apim_name: ${{ steps.deploy.outputs.apim_name }}
-      api_name: ${{ steps.deploy.outputs.api_name }}
-      api_uri: ${{ steps.deploy.outputs.api_uri }}
+      backend_app_name: ${{ steps.deploy.outputs.backend_app_name }}
+      backend_app_uri: ${{ steps.deploy.outputs.backend_app_uri }}
+      frontend_app_name: ${{ steps.deploy.outputs.frontend_app_name }}
+      frontend_app_uri: ${{ steps.deploy.outputs.frontend_app_uri }}
 
     steps:
     - name: Checkout code
@@ -38,12 +40,12 @@ jobs:
           apimPublisherEmail=${{ secrets.APIM_PUBLISHER_EMAIL }}
       id: deploy
 
-  api:
+  backend:
     runs-on: ubuntu-latest
     needs: infrastructure
 
     env:
-      FUNCTION_DIRECTORY: MonitorNet.Functions.Api
+      BACKEND_DIRECTORY: MonitorNet.Functions.Api
 
     steps:
     - name: Checkout code
@@ -56,11 +58,11 @@ jobs:
 
     - name: Dotnet restore
       run: dotnet restore
-      working-directory: ${{ env.FUNCTION_DIRECTORY }}
+      working-directory: ${{ env.BACKEND_DIRECTORY }}
 
     - name: Dotnet publish
       run: dotnet publish --output ./output
-      working-directory: ${{ env.FUNCTION_DIRECTORY }}
+      working-directory: ${{ env.BACKEND_DIRECTORY }}
 
     - name: Azure login
       uses: azure/login@v2
@@ -69,10 +71,9 @@ jobs:
 
     - name: Azure deploy
       uses: Azure/functions-action@v1
-      id: fa
       with:
-        app-name: ${{ needs.infrastructure.outputs.api_name }}
-        package: ${{ env.FUNCTION_DIRECTORY }}/output
+        app-name: ${{ needs.infrastructure.outputs.backend_app_name }}
+        package: ${{ env.BACKEND_DIRECTORY }}/output
 
     - name: Azure apim import
       uses: azure/cli@v2
@@ -82,8 +83,58 @@ jobs:
           --api-id "api"
           --path "api"
           --display-name "api"
-          --description "Imported from: ${{ needs.infrastructure.outputs.api_uri }}/api/openapi/1.0"
+          --description "Imported from: ${{ needs.infrastructure.outputs.backend_app_uri }}/api/openapi/1.0"
           --resource-group "${{ vars.AZURE_RESOURCEGROUP }}"
           --service-name "${{ needs.infrastructure.outputs.apim_name }}"
-          --specification-url "${{ needs.infrastructure.outputs.api_uri }}/api/openapi/1.0"
+          --specification-url "${{ needs.infrastructure.outputs.backend_app_uri }}/api/openapi/1.0"
           --specification-format "OpenApiJson"
+
+  frontend:
+    runs-on: ubuntu-latest
+    needs: infrastructure
+
+    env:
+      FRONTEND_DIRECTORY: MonitorNet.Frontend
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+    - name: Node setup
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Node install
+      run: npm ci
+      working-directory: ${{ env.FRONTEND_DIRECTORY }}
+
+    - name: Node build
+      run: npm run build
+      working-directory: ${{ env.FRONTEND_DIRECTORY }}
+
+    - name: Azure login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Azure Static Web App Management Token
+      uses: azure/cli@v2
+      with:
+        inlineScript: |-
+          TOKEN=$(
+            az staticwebapp secrets list \
+            --name "${{ needs.infrastructure.outputs.frontend_app_name }}" \
+            --query "properties.apiKey" \
+            --output "tsv"
+          )
+          echo "SWA_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+
+    - name: Azure deploy
+      uses: Azure/static-web-apps-deploy@c514ae36604047560e33605b78f71804967bfb7a
+      with:
+        action: upload
+        azure_static_web_apps_api_token: ${{ env.SWA_TOKEN }}
+        app_location: ${{ env.FRONTEND_DIRECTORY }}/dist
+        skip_app_build: true
+        skip_api_build: true
