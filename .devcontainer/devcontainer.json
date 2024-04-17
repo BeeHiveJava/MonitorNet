@@ -2,14 +2,17 @@
   "name": "MonitorNet",
   "image": "ghcr.io/beehivejava/template:azure",
   "postCreateCommand": "pre-commit install --install-hooks",
-  "forwardPorts": [
-    7071
-  ],
+  "forwardPorts": [5173, 7071],
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-azuretools.vscode-apimanagement"
+        "ms-azuretools.vscode-apimanagement",
+        "vue.volar",
+        "dbaeumer.vscode-eslint"
       ]
     }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {}
   }
 }
