@@ -67,5 +67,7 @@ resource key 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
   }
 }
 
+output id string = management.id
 output name string = management.name
+output uri string = '${management.properties.gatewayUrl}/${api.properties.path}'
 

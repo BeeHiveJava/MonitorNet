@@ -1,11 +1,10 @@
-
 <template>
   <Menubar :model="routes" class="mb-2">
-    <template #itemicon="{item}">
-      <component :is="item.icon" class="mr-1"/>
+    <template #itemicon="{ item }">
+      <component :is="item.icon" class="mr-2" />
     </template>
     <template #start>
-      <Avatar size="large" shape="circle" class="mr-1">
+      <Avatar size="large" shape="circle" class="mr-2">
         <template #icon>
           <IconMdiBitcoin />
         </template>
@@ -29,8 +28,15 @@ function toMenuItem(route: RouteRecordNormalized): MenuItem {
     label: route.name as string,
     icon: (route.meta.icon as string) ?? undefined,
     visible: route.meta.navbar !== false,
-    active: () => route.name === current.name,
+    class: (route.name === current.name) ? "p-highlight" : "",
     command: () => router.push(route)
   }
 }
 </script>
+
+<style>
+/* TODO: https://github.com/primefaces/primevue/issues/5250 */
+.p-menubar .p-menuitem:first-child {
+  margin-top: 2px;
+}
+</style>

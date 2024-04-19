@@ -14,6 +14,7 @@ jobs:
 
     outputs:
       apim_name: ${{ steps.deploy.outputs.apim_name }}
+      apim_uri: ${{ steps.deploy.outputs.apim_uri }}
       backend_app_name: ${{ steps.deploy.outputs.backend_app_name }}
       backend_app_uri: ${{ steps.deploy.outputs.backend_app_uri }}
       frontend_app_name: ${{ steps.deploy.outputs.frontend_app_name }}
@@ -112,6 +113,8 @@ jobs:
     - name: Node build
       run: npm run build
       working-directory: ${{ env.FRONTEND_DIRECTORY }}
+      env:
+        VITE_API_BASE_URI: ${{ needs.infrastructure.outputs.apim_uri }}
 
     - name: Azure login
       uses: azure/login@v2

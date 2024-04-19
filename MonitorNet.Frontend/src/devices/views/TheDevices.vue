@@ -1,3 +1,4 @@
 <template>
-  Devices
+  <DeviceList />
 </template>
+

@@ -73,6 +73,7 @@ module management './management.bicep' = {
 }
 
 output apim_name string = management.outputs.name
+output apim_uri string = management.outputs.uri
 output backend_app_name string = backend.outputs.name
 output backend_app_uri string = backend.outputs.uri
 output frontend_app_name string = frontend.outputs.name

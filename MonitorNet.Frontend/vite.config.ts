@@ -1,4 +1,4 @@
-import vue from "@vitejs/plugin-vue"
+import Vue from "@vitejs/plugin-vue"
 import { fileURLToPath, URL } from "node:url"
 import AutoImport from "unplugin-auto-import/vite"
 import IconsResolver from "unplugin-icons/resolver"
@@ -11,11 +11,9 @@ import VueDevTools from "vite-plugin-vue-devtools"
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    Vue(),
     VueDevTools(),
-    Icons({
-      compiler: "vue3"
-    }),
+    Icons({ compiler: "vue3" }),
     AutoImport({
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
@@ -25,7 +23,9 @@ export default defineConfig({
       ],
       imports: [
         "vue",
-        "vue-router"
+        "vue-router",
+        "@vueuse/core",
+        "pinia"
       ]
     }),
     Components({
@@ -36,7 +36,15 @@ export default defineConfig({
         IconsResolver({
           componentPrefix: "icon",
           enabledCollections: ["mdi"]
-        })
+        }),
+        (name) => {
+          // Currently missing in the base library.
+          if (name === "ButtonGroup") {
+            return `primevue/${name.toLowerCase()}`
+          }
+
+          return undefined
+        }
       ]
     })
   ],
