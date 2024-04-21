@@ -69,6 +69,7 @@ module management './management.bicep' = {
     publisherName: apimPublisherName
     publisherEmail: apimPublisherEmail
     backendAppId: backend.outputs.id
+    frontendAppUri: frontend.outputs.uri
   }
 }
 

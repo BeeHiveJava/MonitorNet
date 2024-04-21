@@ -6,7 +6,9 @@ param location string
 param publisherName string
 @secure()
 param publisherEmail string
+
 param backendAppId string
+param frontendAppUri string
 
 resource management 'Microsoft.ApiManagement/service@2022-08-01' = {
   name: 'apim${application}${environment}001'
@@ -47,6 +49,16 @@ resource policy 'Microsoft.ApiManagement/service/apis/policies@2022-08-01' = {
           <set-header name="x-functions-key" exists-action="skip">
             <value>{{FunctionAppKey}}</value>
           </set-header>
+          <cors allow-credentials="false">
+            <allowed-origins>
+              <origin>{{FrontendAppHost}}</origin>
+              <origin>{{FrontendAppLocalHost}}</origin>
+            </allowed-origins>
+            <allowed-methods>
+              <method>GET</method>
+              <method>POST</method>
+            </allowed-methods>
+          </cors>
           <base/>
         </inbound>
         <backend><base/></backend>
@@ -57,7 +69,7 @@ resource policy 'Microsoft.ApiManagement/service/apis/policies@2022-08-01' = {
   }
 }
 
-resource key 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
+resource functionAppKey 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
   name: 'FunctionAppKey'
   parent: management
   properties: {
@@ -67,7 +79,25 @@ resource key 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
   }
 }
 
+resource frontendAppHost 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
+  name: 'FrontendAppHost'
+  parent: management
+  properties: {
+    displayName: 'FrontendAppHost'
+    value: frontendAppUri
+  }
+}
+
+resource frontendAppLocalHost 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
+  name: 'FrontendAppLocalHost'
+  parent: management
+  properties: {
+    displayName: 'FrontendAppLocalHost'
+    value: 'http://localhost:5173'
+  }
+}
+
 output id string = management.id
 output name string = management.name
-output uri string = '${management.properties.gatewayUrl}/${api.properties.path}'
+output uri string = management.properties.gatewayUrl
 

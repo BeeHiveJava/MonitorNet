@@ -14,6 +14,11 @@ export default class DeviceService {
 
   public async GetAll(): Promise<Device[]> {
     const response = await fetch(`${this.uri}/api/devices`, { headers: this.GetAuthorizationHeaders() })
+
+    if (response.status !== 200) {
+      throw new Error("An error occurred while loading devices")
+    }
+
     return await response.json()
   }
 
