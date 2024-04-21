@@ -39,7 +39,7 @@ export default defineConfig({
         }),
         (name) => {
           // Currently missing in the base library.
-          if (name === "ButtonGroup") {
+          if (name === "ButtonGroup" || name === "MeterGroup") {
             return `primevue/${name.toLowerCase()}`
           }
 

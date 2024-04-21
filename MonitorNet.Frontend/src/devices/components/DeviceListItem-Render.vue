@@ -6,30 +6,17 @@
     </template>
     <template #content>
       <div class="grid">
-        <div class="col-6">
-          <DeviceLabelStatusRender :status="status" />
-        </div>
-        <div class="col-6">
-          <DeviceLabelTypeRender :type="type" />
-        </div>
-        <div class="col-6">
-          <DeviceLabelSupervisorVersionRender :version="versions?.supervisor" />
-        </div>
-        <div class="col-6">
-          <DeviceLabelHostOsVersionRender :version="versions?.host" />
-        </div>
-        <div class="col-6">
-          <DeviceLabelAppVersionRender name="Current Release" :version="releases?.current" />
-        </div>
-        <div class="col-6">
-          <DeviceLabelAppVersionRender name="Target Release" :version="releases?.target" />
-        </div>
-        <div class="col-6">
-          <DeviceLabelIpRender type="lan" :address="network?.local" />
-        </div>
-        <div class="col-6">
-          <DeviceLabelIpRender type="wan" :address="network?.public" />
-        </div>
+        <DeviceListItemValueTypeRender :type="type" class="col-6" />
+        <DeviceListItemValueStatusRender :status="status" class="col-6" />
+
+        <DeviceListItemValueAddressRender type="lan" :address="network?.local" class="col-6" />
+        <DeviceListItemValueAddressRender type="wan" :address="network?.public" class="col-6" />
+
+        <DeviceListItemValueUsageRender type="CPU" :value="3" :max="100" unit="%" class="col-6" />
+        <DeviceListItemValueUsageRender type="Temperature" :value="51" unit="C" class="col-6" />
+
+        <DeviceListItemValueUsageRender type="Memory" :value="2.1" :max="3.7" unit="GB" class="col-6" />
+        <DeviceListItemValueUsageRender type="Storage" :value="1.7" :max="28.4" unit="GB" class="col-6" />
       </div>
     </template>
   </Card>
