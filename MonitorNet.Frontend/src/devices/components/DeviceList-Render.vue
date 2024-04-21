@@ -13,6 +13,7 @@
         :versions="device.versions"
         :releases="device.releases"
         :network="device.network"
+        :usage="device.usage"
       />
     </div>
   </div>

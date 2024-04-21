@@ -17,5 +17,7 @@ export const useDeviceStore = defineStore("devices", () => {
     return pending
   }
 
+  refresh()
+
   return { devices, refresh }
 })

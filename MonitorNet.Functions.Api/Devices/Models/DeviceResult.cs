@@ -41,6 +41,27 @@ internal record DeviceResultEntry
 
     [JsonPropertyName("public_address")]
     public string? PublicAddress { get; init; }
+
+    [JsonPropertyName("memory_usage")]
+    public long? MemoryUsageMb { get; init; }
+
+    [JsonPropertyName("memory_total")]
+    public long? MemoryTotalMb { get; init; }
+
+    [JsonPropertyName("storage_usage")]
+    public long? StorageUsageMb { get; init; }
+
+    [JsonPropertyName("storage_total")]
+    public long? StorageTotalMb { get; init; }
+
+    [JsonPropertyName("cpu_usage")]
+    public long? CpuUsage { get; init; }
+
+    [JsonPropertyName("cpu_temp")]
+    public long? CpuTemperature { get; init; }
+
+    [JsonPropertyName("is_undervolted")]
+    public bool? IsUndervolted { get; init; }
 }
 
 [Serializable]

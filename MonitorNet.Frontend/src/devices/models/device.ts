@@ -6,6 +6,7 @@ export interface Device {
   versions: DeviceVersions
   releases: DeviceReleases
   network: DeviceNetworkAddresses
+  usage: DeviceUsage
 }
 
 export interface DeviceVersions {
@@ -21,4 +22,13 @@ export interface DeviceReleases {
 export interface DeviceNetworkAddresses {
   local: string
   public: string
+}
+
+export interface DeviceUsage {
+  memoryUsageMb: number,
+  memoryTotalMb: number,
+  storageUsageMb: number,
+  storageTotalMb: number,
+  cpuUsage: number,
+  cpuTemperature: number
 }

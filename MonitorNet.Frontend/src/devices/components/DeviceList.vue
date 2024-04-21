@@ -7,5 +7,7 @@ import { useDeviceStore } from "../stores/device.store"
 
 const store = useDeviceStore()
 
-onMounted(async () => await store.refresh())
+let interval: number
+onMounted(() => interval = setInterval(store.refresh, 50 * 60 * 1000))
+onUnmounted(() => clearInterval(interval))
 </script>

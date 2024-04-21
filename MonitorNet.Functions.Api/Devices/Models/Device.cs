@@ -1,4 +1,6 @@
-﻿namespace MonitorNet.Functions.Api.Devices.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace MonitorNet.Functions.Api.Devices.Models;
 
 [Serializable]
 public record Device
@@ -11,11 +13,16 @@ public record Device
 
     public string Type { get; init; } = default!;
 
+    [JsonPropertyName("undervolted")]
+    public bool IsUndervolted { get; init; }
+
     public DeviceVersions Versions { get; init; } = new();
 
     public DeviceReleases Releases { get; init; } = new();
 
     public DeviceNetworkAddresses Network { get; init; } = new();
+
+    public DeviceUsage Usage { get; init; } = new();
 }
 
 [Serializable]
@@ -42,3 +49,18 @@ public record DeviceNetworkAddresses
     public string Public { get; init; } = default!;
 }
 
+[Serializable]
+public record DeviceUsage
+{
+    public long MemoryUsageMb { get; init; }
+
+    public long MemoryTotalMb { get; init; }
+
+    public long StorageUsageMb { get; init; }
+
+    public long StorageTotalMb { get; init; }
+
+    public long CpuUsage { get; init; }
+
+    public long CpuTemperature { get; init; }
+}
