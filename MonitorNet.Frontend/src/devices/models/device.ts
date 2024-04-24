@@ -1,8 +1,9 @@
 export interface Device {
   id: string
   name: string,
-  status: "Online" | "Offline" | "Unknown",
+  status: "Online" | "Offline" | "Unknown" | undefined,
   type: string
+  undervolted: boolean
   versions: DeviceVersions
   releases: DeviceReleases
   network: DeviceNetworkAddresses
@@ -25,10 +26,10 @@ export interface DeviceNetworkAddresses {
 }
 
 export interface DeviceUsage {
-  memoryUsageMb: number,
-  memoryTotalMb: number,
-  storageUsageMb: number,
-  storageTotalMb: number,
+  memoryUsageGb: number,
+  memoryTotalGb: number,
+  storageUsageGb: number,
+  storageTotalGb: number,
   cpuUsage: number,
   cpuTemperature: number
 }

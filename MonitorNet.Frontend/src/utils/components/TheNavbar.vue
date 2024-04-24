@@ -1,7 +1,7 @@
 <template>
   <Menubar :model="routes" class="mb-2">
     <template #itemicon="{ item }">
-      <component :is="item.icon" class="mr-2" />
+      <component :is="item.meta.icon" class="mr-2" />
     </template>
     <template #start>
       <Avatar size="large" shape="circle" class="mr-2">
@@ -22,13 +22,13 @@ const current = useRoute()
 const router = useRouter()
 const routes = computed(() => router.getRoutes().map(toMenuItem))
 
-function toMenuItem(route: RouteRecordNormalized): MenuItem {
+const toMenuItem = (route: RouteRecordNormalized): MenuItem => {
   return {
     key: route.name as string,
     label: route.name as string,
-    icon: (route.meta.icon as string) ?? undefined,
     visible: route.meta.navbar !== false,
     class: (route.name === current.name) ? "p-highlight" : "",
+    meta: { icon: route.meta.icon },
     command: () => router.push(route)
   }
 }

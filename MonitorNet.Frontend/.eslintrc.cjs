@@ -13,6 +13,7 @@ module.exports = {
   },
   rules: {
     "comma-dangle": ["error", "never"],
+    "max-len": ["error", { "code": 145 }],
     "indent": ["error", 2],
     "quotes": [2, "double", { "avoidEscape": true }],
     "semi": ["error", "never"]

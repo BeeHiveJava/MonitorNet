@@ -1,6 +1,7 @@
 <template>
   <TheNavbar />
   <RouterView />
+  <ConfirmDialog />
 </template>
 
 <style>

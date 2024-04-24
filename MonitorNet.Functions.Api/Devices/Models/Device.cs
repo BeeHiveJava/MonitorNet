@@ -52,13 +52,13 @@ public record DeviceNetworkAddresses
 [Serializable]
 public record DeviceUsage
 {
-    public long MemoryUsageMb { get; init; }
+    public double MemoryUsageGb { get; init; }
 
-    public long MemoryTotalMb { get; init; }
+    public double MemoryTotalGb { get; init; }
 
-    public long StorageUsageMb { get; init; }
+    public double StorageUsageGb { get; init; }
 
-    public long StorageTotalMb { get; init; }
+    public double StorageTotalGb { get; init; }
 
     public long CpuUsage { get; init; }
 

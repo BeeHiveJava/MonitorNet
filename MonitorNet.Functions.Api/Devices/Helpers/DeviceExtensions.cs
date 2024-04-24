@@ -28,10 +28,10 @@ internal static class DeviceExtensions
         },
         Usage = new()
         {
-            MemoryUsageMb = entry.MemoryUsageMb ?? 0,
-            MemoryTotalMb = entry.MemoryTotalMb ?? 0,
-            StorageUsageMb = entry.StorageUsageMb ?? 0,
-            StorageTotalMb = entry.StorageTotalMb ?? 0,
+            MemoryUsageGb = (entry.MemoryUsageMb ?? 0) / 1000d,
+            MemoryTotalGb = (entry.MemoryTotalMb ?? 0) / 1000d,
+            StorageUsageGb = (entry.StorageUsageMb ?? 0) / 1000d,
+            StorageTotalGb = (entry.StorageTotalMb ?? 0) / 1000d,
             CpuUsage = entry.CpuUsage ?? 0,
             CpuTemperature = entry.CpuTemperature ?? 0
         }

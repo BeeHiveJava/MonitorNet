@@ -39,7 +39,9 @@ export default defineConfig({
         }),
         (name) => {
           // Currently missing in the base library.
-          if (name === "ButtonGroup" || name === "MeterGroup") {
+          const components = ["ButtonGroup", "MeterGroup", "ConfirmPopup", "ConfirmDialog"]
+
+          if (components.includes(name)) {
             return `primevue/${name.toLowerCase()}`
           }
 
