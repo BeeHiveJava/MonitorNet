@@ -9,8 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDevice } from "../composables/device.store"
-
+import { useDevice } from "@/devices"
 const props = defineProps<{ id?: string }>()
 const device = useDevice(props.id)
 </script>

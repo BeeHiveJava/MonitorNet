@@ -7,8 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDevice } from "../composables/device.store"
-import { useDeviceUsage, type DeviceUsageType } from "../composables/device.utils"
+import { useDevice, useDeviceUsage, type DeviceUsageType } from "@/devices"
 
 const props = defineProps<{ type: DeviceUsageType, id?: string }>()
 const device = useDevice(props.id)

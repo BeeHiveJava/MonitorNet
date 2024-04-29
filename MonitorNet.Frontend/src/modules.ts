@@ -1,8 +1,11 @@
 import type { Pinia } from "pinia"
 import type { App, Plugin } from "vue"
 import type { RouteRecordRaw, Router } from "vue-router"
-import devices from "./devices"
-import home from "./home"
+
+import Devices from "./devices"
+import Home from "./home"
+import Symbols from "./symbols"
+import Monitors from "./monitors"
 
 export type ModuleContext = {
   app: App
@@ -15,10 +18,7 @@ export type Module = {
   routes?: RouteRecordRaw[]
 }
 
-const modules: Module[] = [
-  home,
-  devices
-]
+const modules: Module[] = [Home, Devices, Symbols, Monitors]
 
 function installRoutes(module: Module, context: ModuleContext) {
   for (const route of module?.routes ?? []) {

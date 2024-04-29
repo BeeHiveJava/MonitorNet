@@ -1,21 +1,25 @@
-import type { Device } from "../models/device"
+import type { Device } from "@/devices"
 
-export type DeviceUsageType = "memory" | "storage" | "cpu_usage" | "cpu_temperature"
+const ZERO = toRef(() => 0)
+
+const HUNDRED = toRef(() => 100)
+
+export type DeviceUsageType = "Memory" | "Storage" | "CPU Usage" | "CPU Temperature"
 
 export const useDeviceUsage = (type: DeviceUsageType, device: Ref<Device | undefined>) => {
-  if (type === "cpu_usage") {
+  if (type === "CPU Usage") {
     return useDeviceCpuUsage(device)
   }
 
-  if (type === "cpu_temperature") {
+  if (type === "CPU Temperature") {
     return useDeviceCpuTemperature(device)
   }
 
-  if (type === "memory") {
+  if (type === "Memory") {
     return useDeviceMemoryuUsage(device)
   }
 
-  if (type === "storage") {
+  if (type === "Storage") {
     return useDeviceStorageUsage(device)
   }
 
@@ -71,6 +75,3 @@ const useDeviceUsageCustom = (usage: Ref<number>, max: Ref<number>, unit: string
 
   return { percentage, description, color }
 }
-
-const ZERO = toRef(() => 0)
-const HUNDRED = toRef(() => 100)

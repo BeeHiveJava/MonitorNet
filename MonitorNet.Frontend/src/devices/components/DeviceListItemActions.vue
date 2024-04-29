@@ -43,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+import { useDevice } from "@/devices"
 import type Menu from "primevue/menu"
 import type { MenuItemCommandEvent } from "primevue/menuitem"
 import { useConfirm } from "primevue/useconfirm"
@@ -50,7 +51,6 @@ import MdiMonitors from "~icons/mdi/monitors"
 import MdiReload from "~icons/mdi/reload"
 import MdiRestart from "~icons/mdi/restart"
 import MdiShutdown from "~icons/mdi/shutdown"
-import { useDevice } from "../composables/device.store"
 
 const props = defineProps<{ id?: string }>()
 const device = useDevice(props.id)

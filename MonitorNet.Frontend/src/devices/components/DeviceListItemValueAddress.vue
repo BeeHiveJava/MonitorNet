@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDevice } from "../composables/device.store"
+import { useDevice } from "@/devices"
 
 const props = defineProps<{ type: "lan" | "wan", id?: string }>()
 const device = useDevice(props.id)

@@ -39,7 +39,16 @@ export default defineConfig({
         }),
         (name) => {
           // Currently missing in the base library.
-          const components = ["ButtonGroup", "MeterGroup", "ConfirmPopup", "ConfirmDialog"]
+          const components = [
+            "ButtonGroup",
+            "MeterGroup",
+            "ConfirmPopup",
+            "ConfirmDialog",
+            "IconField",
+            "InputIcon",
+            "InputGroup",
+            "InputGroupAddon"
+          ]
 
           if (components.includes(name)) {
             return `primevue/${name.toLowerCase()}`

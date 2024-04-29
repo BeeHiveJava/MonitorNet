@@ -12,8 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDeviceStore } from "../composables/device.store"
-
+import { useDeviceStore } from "@/devices"
 const store = useDeviceStore()
 useInterval(60 * 5 * 1000, { callback: store.refresh })
 </script>
