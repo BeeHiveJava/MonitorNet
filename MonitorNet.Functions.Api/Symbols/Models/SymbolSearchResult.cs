@@ -5,6 +5,7 @@ namespace MonitorNet.Functions.Api.Symbols.Models;
 [Serializable]
 internal record SymbolSearchResult
 {
+    [JsonPropertyName("symbols")]
     public IReadOnlyCollection<SymbolSearchResultEntry> Symbols { get; init; } = [];
 }
 
