@@ -6,10 +6,10 @@
 <script setup lang="ts">
 import type { CryptoSymbol } from "@/symbols"
 
-const props = defineProps<{ symbol: CryptoSymbol }>()
+const props = defineProps<{ symbol?: CryptoSymbol }>()
 
 const logo = computed(() => {
-  if (!props.symbol.logo) {
+  if (props.symbol?.logo === undefined || props.symbol?.logo === null) {
     return undefined
   }
 

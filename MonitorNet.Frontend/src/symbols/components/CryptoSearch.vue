@@ -2,7 +2,7 @@
   <InputGroup>
     <InputGroupAddon>{{ label }}</InputGroupAddon>
     <CryptoSearchInput v-if="!readonly" @submit="submit" @cancel="cancel" />
-    <CryptoSearchLabel v-else :symbol="model!" class="p-inputtext p-component" style="height: 50px" />
+    <CryptoSearchLabel v-else :symbol="model" class="p-inputtext p-component" style="height: 50px" />
     <Button v-if="readonly" @click="edit">
       <template #icon>
         <IconMdiEdit />

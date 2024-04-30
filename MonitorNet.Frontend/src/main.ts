@@ -2,6 +2,7 @@ import { createApp } from "vue"
 
 import PrimeVue from "primevue/config"
 import PrimeVueConfirmationService from "primevue/confirmationservice"
+import PrimeVueDialogService from "primevue/dialogservice"
 import PrimeVueTooltip from "primevue/tooltip"
 import "primevue/resources/themes/aura-light-green/theme.css"
 import "primeflex/primeflex.css"
@@ -17,5 +18,6 @@ app.use(State)
 app.use(Router)
 app.use(PrimeVue)
 app.use(PrimeVueConfirmationService)
+app.use(PrimeVueDialogService)
 app.directive("tooltip", PrimeVueTooltip)
 app.mount("#app")

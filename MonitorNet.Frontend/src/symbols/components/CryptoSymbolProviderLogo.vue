@@ -9,7 +9,7 @@ import type { CryptoSymbolProvider } from "@/symbols"
 const props = defineProps<{ provider?: CryptoSymbolProvider }>()
 
 const logo = computed(() => {
-  if (!props.provider?.logo) {
+  if (props.provider?.logo === undefined || props.provider?.logo === null) {
     return undefined
   }
 

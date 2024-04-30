@@ -2,6 +2,7 @@
   <TheNavbar />
   <RouterView />
   <ConfirmDialog />
+  <DynamicDialog />
 </template>
 
 <style>

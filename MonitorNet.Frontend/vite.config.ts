@@ -44,6 +44,7 @@ export default defineConfig({
             "MeterGroup",
             "ConfirmPopup",
             "ConfirmDialog",
+            "DynamicDialog",
             "IconField",
             "InputIcon",
             "InputGroup",

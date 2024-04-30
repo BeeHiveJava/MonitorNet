@@ -1,34 +1,52 @@
+import type { MaybeDeviceRefOrGetter } from "@/devices"
 import type { Monitor } from "@/monitors"
 import type { MaybeRef } from "vue"
-import type { Device } from "@/devices"
 
 export const useMonitorStore = defineStore("monitors", () => {
   const monitors = useLocalStorage<Monitor[]>("monitors", [])
   // const { data, execute } = useMonitorNetApi("api/devices").get().json<Device[]>()
 
-  const all = (device: string) => monitors.value.filter(monitor => monitor?.device === device)
-  const get = (device: string, index: number) => all(device).find(monitor => monitor?.index === index)
+  const get = (device: MaybeDeviceRefOrGetter) => {
+    return monitors.value.filter(monitor => monitor?.device === toValue(device)?.id)
+  }
 
-  return { monitors, all, get }
+  const save = (monitor: Monitor) => {
+    const index = monitors.value.findIndex(item => item.device === monitor.device && item.index === monitor.index)
+
+    if (index >= 0) {
+      monitors.value.splice(index, 1, monitor)
+    } else {
+      monitors.value.push(monitor)
+    }
+  }
+
+  return { monitors, get, save }
 })
 
-export const useMonitor = (deviceRef: MaybeDeviceOrId, indexRef: MaybeRef<number | undefined>) => {
-  const store = useMonitorStore()
+export const useMonitor = (device: MaybeDeviceRefOrGetter, indexRef: MaybeRef<number | undefined>) => {
+  const monitors = useMonitors(device)
 
   return computed(() => {
-    const device = toValue(deviceRef)
-    if (device === undefined) {
-      return undefined
-    }
-
     const index = toValue(indexRef)
+
     if (index === undefined) {
       return undefined
     }
 
-    const deviceId = typeof device === "string" ? device : device.id
-    return store.get(deviceId, index)
+    return monitors.value?.find(monitor => monitor.index === index)
   })
 }
 
-type MaybeDeviceOrId = MaybeRef<Device | string | undefined>
+export const useMonitors = (deviceRef: MaybeDeviceRefOrGetter) => {
+  const store = useMonitorStore()
+
+  return computed(() => {
+    const device = toValue(deviceRef)
+
+    if (device === undefined) {
+      return undefined
+    }
+
+    return store.get(device)
+  })
+}
