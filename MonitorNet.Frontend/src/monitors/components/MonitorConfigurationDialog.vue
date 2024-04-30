@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { useDevice } from "@/devices"
-import { useMonitor, useMonitorStore, type Monitor } from "@/monitors"
+import { useMonitor, useMonitorStore } from "@/monitors"
 import type { CryptoSymbol } from "@/symbols"
 import type { DynamicDialogOptions } from "primevue/dynamicdialogoptions"
 
@@ -22,31 +22,19 @@ const store = useMonitorStore()
 const deviceId = ref()
 const device = useDevice(deviceId)
 
-const monitorOne = useMonitor(device, 1)
+const monitorOne = useMonitor({device, monitor: 1})
 const monitorOneSymbol = ref<CryptoSymbol>()
 
-const monitorTwo = useMonitor(device, 2)
+const monitorTwo = useMonitor({device, monitor: 2})
 const monitorTwoSymbol = ref<CryptoSymbol>()
 
-const save = () => {
-  const one: Monitor = monitorOne.value ?? {
-    device: device.value!.id,
-    index: 1,
-    symbol: monitorOneSymbol.value!,
-    rotation: "normal"
-  }
-  one.symbol = monitorOneSymbol.value!
+const save = async () => {
+  await Promise.all([
+    store.save({device, monitor: 1}, monitorOneSymbol.value!),
+    store.save({device, monitor: 2}, monitorTwoSymbol.value!)
+  ])
+  await store.refresh()
 
-  const two: Monitor = monitorTwo.value ?? {
-    device: device.value!.id,
-    index: 2,
-    symbol: monitorTwoSymbol.value!,
-    rotation: "normal"
-  }
-  two.symbol = monitorTwoSymbol.value!
-
-  store.save(one)
-  store.save(two)
   dialog.value.close()
 }
 

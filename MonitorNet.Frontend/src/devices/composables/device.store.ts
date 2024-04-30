@@ -1,16 +1,23 @@
 import type { Device } from "@/devices"
 import { useMonitorNetApi } from "@/utils"
+import type { UseFetchOptions } from "@vueuse/core"
 import type { MaybeRef } from "vue"
 
 export const useDeviceStore = defineStore("devices", () => {
   const devices = useLocalStorage<Device[]>("devices", [])
-  const { data, execute } = useMonitorNetApi("api/devices").get().json<Device[]>()
+  const external = useDeviceGetAll(true)
 
-  const get = (id: string) => devices.value.find(device => device.id === id)
-  const refresh = async () => { await execute() }
-  watchEffect(() => devices.value = data.value ? data.value : devices.value)
+  const refresh = async () => {
+    await external.execute(true)
+  }
 
-  return { devices, get, refresh }
+  watchEffect(() => {
+    if (external.data.value) {
+      devices.value = external.data.value
+    }
+  })
+
+  return { devices, refresh }
 })
 
 export const useDevice = (idRef: MaybeRef<string | undefined>) => {
@@ -18,6 +25,18 @@ export const useDevice = (idRef: MaybeRef<string | undefined>) => {
 
   return computed(() => {
     const id = toValue(idRef)
-    return id !== undefined ? store.get(id) : undefined
+
+    if (id === undefined) {
+      return undefined
+    }
+
+    return store.devices.find(device => device.id === id)
   })
+}
+
+const useDeviceGetAll = (immediate: boolean = false) => {
+  const options: UseFetchOptions = { immediate }
+  const api = useMonitorNetApi("api/devices", options)
+  const { data, error, execute } = api.get().json<Device[]>()
+  return { data, error, execute }
 }
