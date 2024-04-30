@@ -12,10 +12,10 @@ internal class GetOne(IDeviceService service)
 {
     [Function("DevicesGetOne")]
     [OpenApiOperation(operationId: "GetOne", tags: ["Devices"])]
-    [OpenApiParameter(name: "id", Required = true)]
+    [OpenApiParameter(name: "id", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Device))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
-    public async Task<IActionResult> RunAsync(
+    public async Task<IActionResult> GetOneAsync(
         [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethod.Get), Route = "devices/{id}")]
         HttpRequest request,
         string id)

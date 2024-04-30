@@ -13,10 +13,10 @@ internal class Search(ISymbolService service)
 {
     [Function("SymbolsSearch")]
     [OpenApiOperation(operationId: "Search", tags: ["Symbols"])]
-    [OpenApiParameter(name: "symbol", Required = false, In = ParameterLocation.Query)]
-    [OpenApiParameter(name: "exchange", Required = false, In = ParameterLocation.Query)]
+    [OpenApiParameter(name: "symbol", Type = typeof(string), Required = false, In = ParameterLocation.Query)]
+    [OpenApiParameter(name: "exchange", Type = typeof(string), Required = false, In = ParameterLocation.Query)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<Symbol>))]
-    public async Task<IActionResult> RunAsync(
+    public async Task<IActionResult> SearchAsync(
         [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethod.Get), Route = "symbols/search")]
         HttpRequest request)
     {
