@@ -12,7 +12,7 @@ namespace MonitorNet.Functions.Api.Symbols.Functions;
 internal class Search(ISymbolService service)
 {
     [Function("SymbolsSearch")]
-    [OpenApiOperation(operationId: "Search", tags: ["Symbols"])]
+    [OpenApiOperation(operationId: "SymbolsSearch", tags: ["Symbols"])]
     [OpenApiParameter(name: "symbol", Type = typeof(string), Required = false, In = ParameterLocation.Query)]
     [OpenApiParameter(name: "exchange", Type = typeof(string), Required = false, In = ParameterLocation.Query)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<Symbol>))]

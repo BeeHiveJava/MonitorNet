@@ -11,7 +11,7 @@ namespace MonitorNet.Functions.Api.Monitors.Functions;
 internal class Save(IMonitorService service)
 {
     [Function("MonitorsSave")]
-    [OpenApiOperation(operationId: "Save", tags: ["Monitors"])]
+    [OpenApiOperation(operationId: "MonitorsSave", tags: ["Monitors"])]
     [OpenApiParameter(name: "device", Type = typeof(string), Required = true)]
     [OpenApiParameter(name: "index", Type = typeof(int), Required = true)]
     [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Symbol))]

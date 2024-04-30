@@ -12,7 +12,7 @@ namespace MonitorNet.Functions.Api.Monitors.Functions;
 internal class GetAll(IMonitorService service)
 {
     [Function("MonitorsGetAll")]
-    [OpenApiOperation(operationId: "GetAll", tags: ["Monitors"])]
+    [OpenApiOperation(operationId: "MonitorsGetAll", tags: ["Monitors"])]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<DeviceMonitor>))]
     public async Task<IActionResult> GetAllAsync(
         [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethod.Get), Route = "monitors")]
@@ -23,7 +23,7 @@ internal class GetAll(IMonitorService service)
     }
 
     [Function("MonitorsGetAllByDevice")]
-    [OpenApiOperation(operationId: "GetAllByDevice", tags: ["Monitors"])]
+    [OpenApiOperation(operationId: "MonitorsGetAllByDevice", tags: ["Monitors"])]
     [OpenApiParameter(name: "device", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<DeviceMonitor>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

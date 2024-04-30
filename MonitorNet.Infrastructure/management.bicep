@@ -54,10 +54,12 @@ resource policy 'Microsoft.ApiManagement/service/apis/policies@2022-08-01' = {
               <origin>{{FrontendAppHost}}</origin>
               <origin>{{FrontendAppLocalHost}}</origin>
             </allowed-origins>
-            <allowed-methods>
-              <method>GET</method>
-              <method>POST</method>
+            <allowed-methods preflight-result-max-age="3600">
+              <method>*</method>
             </allowed-methods>
+            <allowed-headers>
+              <header>*</header>
+            </allowed-headers>
           </cors>
           <base/>
         </inbound>

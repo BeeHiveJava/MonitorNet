@@ -12,7 +12,7 @@ namespace MonitorNet.Functions.Api.Devices.Functions;
 internal class GetAll(IDeviceService service)
 {
     [Function("DevicesGetAll")]
-    [OpenApiOperation(operationId: "GetAll", tags: ["Devices"])]
+    [OpenApiOperation(operationId: "DevicesGetAll", tags: ["Devices"])]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<Device>))]
     public async Task<IActionResult> GetAllAsync(
         [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethod.Get), Route = "devices")]

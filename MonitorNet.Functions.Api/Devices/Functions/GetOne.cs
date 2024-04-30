@@ -11,7 +11,7 @@ namespace MonitorNet.Functions.Api;
 internal class GetOne(IDeviceService service)
 {
     [Function("DevicesGetOne")]
-    [OpenApiOperation(operationId: "GetOne", tags: ["Devices"])]
+    [OpenApiOperation(operationId: "DevicesGetOne", tags: ["Devices"])]
     [OpenApiParameter(name: "id", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Device))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

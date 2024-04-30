@@ -115,6 +115,7 @@ jobs:
       working-directory: ${{ env.FRONTEND_DIRECTORY }}
       env:
         VITE_API_BASE_URI: ${{ needs.infrastructure.outputs.apim_uri }}
+        VITE_API_SUBSCRIPTION_KEY: ${{ secrets.APIM_SUBSCRIPTION_KEY }} # TODO: Remove
 
     - name: Azure login
       uses: azure/login@v2
