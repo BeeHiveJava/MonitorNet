@@ -1,8 +1,7 @@
 <template>
   <InputGroup>
-    <InputGroupAddon>{{ label }}</InputGroupAddon>
     <CryptoSearchInput v-if="!readonly" @submit="submit" @cancel="cancel" />
-    <CryptoSearchLabel v-else :symbol="model" class="p-inputtext p-component" style="height: 50px" />
+    <CryptoSearchLabel v-else :symbol="model" class="p-inputtext p-component border-round-left" style="height: 50px" />
     <Button v-if="readonly" @click="edit">
       <template #icon>
         <IconMdiEdit />
@@ -15,7 +14,7 @@
 import type { CryptoSymbol } from "@/symbols"
 
 const model = defineModel<CryptoSymbol>()
-const props = withDefaults(defineProps<{ label: string; readonly?: boolean }>(), { readonly: true })
+const props = withDefaults(defineProps<{ readonly?: boolean }>(), { readonly: true })
 const readonly = ref(props.readonly)
 
 const edit = () => readonly.value = false

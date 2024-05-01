@@ -1,9 +1,7 @@
 import type { MaybeDeviceRefOrGetter } from "@/devices"
-import MonitorConfigurationDialog from "@/monitors/components/MonitorConfigurationDialog.vue"
-import type { DynamicDialogOptions } from "primevue/dynamicdialogoptions"
+import { useMonitorConfigurationDialog, type MonitorDialogOpen } from "@/monitors"
 import type { MenuItem, MenuItemCommandEvent } from "primevue/menuitem"
 import { useConfirm } from "primevue/useconfirm"
-import { useDialog } from "primevue/usedialog"
 import MdiMonitors from "~icons/mdi/monitors"
 import MdiReload from "~icons/mdi/reload"
 import MdiRestart from "~icons/mdi/restart"
@@ -11,28 +9,25 @@ import MdiShutdown from "~icons/mdi/shutdown"
 
 export const useDeviceMenu = (device: MaybeDeviceRefOrGetter): MenuItem[] => {
   const confirm = useConfirm()
-  const dialog = useDialog()
+  const dialog = useMonitorConfigurationDialog()
   return [monitors(dialog, device), actions(confirm, device)]
 }
 
-const monitors = (dialog: any, device: MaybeDeviceRefOrGetter): MenuItem => ({
+const monitors = (dialog: MonitorDialogOpen, device: MaybeDeviceRefOrGetter): MenuItem => ({
   label: "Monitors",
   items: [
     {
-      label: "Configure",
-      command: event => configure(dialog, device, event),
+      label: "Monitor 1",
+      command: () => dialog(device, 1),
+      meta: { icon: MdiMonitors }
+    },
+    {
+      label: "Monitor 2",
+      command: () => dialog(device, 2),
       meta: { icon: MdiMonitors }
     }
   ]
 })
-
-const configure = (dialog: any, deviceRef: MaybeDeviceRefOrGetter, event: MenuItemCommandEvent) => {
-  const device = toValue(deviceRef)
-  dialog.open(MonitorConfigurationDialog, {
-    data: { device: device?.id },
-    props: { modal: true }
-  } as DynamicDialogOptions)
-}
 
 const actions = (confirm: any, device: MaybeDeviceRefOrGetter): MenuItem => ({
   label: "Actions",

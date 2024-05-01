@@ -1,11 +1,10 @@
-import type { Device } from "@/devices"
+import { toDeviceId, type Device, type DeviceId } from "@/devices"
 import { useMonitorNetApi } from "@/utils"
 import type { UseFetchOptions } from "@vueuse/core"
-import type { MaybeRef } from "vue"
 
 export const useDeviceStore = defineStore("devices", () => {
   const devices = useLocalStorage<Device[]>("devices", [])
-  const external = useDeviceGetAll(true)
+  const external = useDeviceGetAll({ immediate: true })
 
   const refresh = async () => {
     await external.execute(true)
@@ -20,11 +19,11 @@ export const useDeviceStore = defineStore("devices", () => {
   return { devices, refresh }
 })
 
-export const useDevice = (idRef: MaybeRef<string | undefined>) => {
+export const useDevice = (device: DeviceId) => {
   const store = useDeviceStore()
 
   return computed(() => {
-    const id = toValue(idRef)
+    const id = toDeviceId(device)
 
     if (id === undefined) {
       return undefined
@@ -34,9 +33,8 @@ export const useDevice = (idRef: MaybeRef<string | undefined>) => {
   })
 }
 
-const useDeviceGetAll = (immediate: boolean = false) => {
-  const options: UseFetchOptions = { immediate }
-  const api = useMonitorNetApi("api/devices", options)
+const useDeviceGetAll = (options?: UseFetchOptions) => {
+  const api = useMonitorNetApi("api/devices", options ?? { immediate: false })
   const { data, error, execute } = api.get().json<Device[]>()
   return { data, error, execute }
 }

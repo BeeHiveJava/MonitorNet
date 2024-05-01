@@ -1,19 +1,21 @@
-import type { MaybeDeviceRefOrGetter } from "@/devices"
-import type { Monitor, MonitorId } from "@/monitors"
+import { toDeviceId, type DeviceId } from "@/devices"
+import { toMonitorId, type Monitor, type MonitorId } from "@/monitors"
 import type { CryptoSymbol } from "@/symbols"
 import { useMonitorNetApi } from "@/utils"
 import type { UseFetchOptions } from "@vueuse/core"
 
 export const useMonitorStore = defineStore("monitors", () => {
   const monitors = useLocalStorage<Monitor[]>("monitors", [])
-  const external = useMonitorGetAll(true)
+  const external = useMonitorGetAll({ immediate: true })
 
   const refresh = async () => {
     await external.execute(true)
   }
 
-  const save = async (id: MonitorId, symbol: CryptoSymbol) => {
-    await useMonitorSave(id, symbol).execute(true)
+  const save = async (device: DeviceId, monitor: MonitorId, symbol: CryptoSymbol) => {
+    const request: MonitorSaveOneRequest = { device, monitor, symbol }
+    const options: UseFetchOptions = { immediate: false, timeout: 3000 }
+    await useMonitorSaveOne(request, options).execute(true)
   }
 
   watchEffect(() => {
@@ -25,11 +27,11 @@ export const useMonitorStore = defineStore("monitors", () => {
   return { monitors, refresh, save }
 })
 
-export const useMonitor = (id: MonitorId) => {
-  const monitors = useMonitors(id.device)
+export const useMonitor = (deviceId: DeviceId, monitorId: MonitorId) => {
+  const monitors = useMonitors(deviceId)
 
   return computed(() => {
-    const index = toValue(id.monitor)
+    const index = toMonitorId(monitorId)
 
     if (index === undefined) {
       return undefined
@@ -39,30 +41,38 @@ export const useMonitor = (id: MonitorId) => {
   })
 }
 
-export const useMonitors = (deviceRef: MaybeDeviceRefOrGetter) => {
+export const useMonitors = (deviceId: DeviceId) => {
   const store = useMonitorStore()
 
   return computed(() => {
-    const device = toValue(deviceRef)
+    const device = toDeviceId(deviceId)
 
     if (device === undefined) {
       return undefined
     }
 
-    return store.monitors.filter(monitor => monitor?.device === toValue(device)?.id)
+    return store.monitors.filter(monitor => monitor?.device === device)
   })
 }
 
-const useMonitorGetAll = (immediate: boolean = false) => {
-  const options: UseFetchOptions = { immediate }
-  const api = useMonitorNetApi("api/monitors", options)
+const useMonitorGetAll = (options?: UseFetchOptions) => {
+  const api = useMonitorNetApi("api/monitors", options ?? { immediate: false })
   const { data, error, execute } = api.get().json<Monitor[]>()
   return { data, error, execute }
 }
 
-const useMonitorSave = (id: MonitorId, symbol: CryptoSymbol, immediate: boolean = false) => {
-  const options: UseFetchOptions = { immediate }
-  const api = useMonitorNetApi(`api/monitors/${toValue(id.device)?.id}/${toValue(id.monitor)}`, options)
-  const { data, error, execute } = api.put(symbol)
+const useMonitorSaveOne = (request: MonitorSaveOneRequest, options?: UseFetchOptions) => {
+  const device = toDeviceId(request.device)
+  const monitor = toMonitorId(request.monitor)
+
+  const api = useMonitorNetApi(`api/monitors/${device}/${monitor}`, options ?? { immediate: false })
+  const { data, error, execute } = api.put(request.symbol)
+
   return { data, error, execute }
+}
+
+type MonitorSaveOneRequest = {
+  device: DeviceId
+  monitor: MonitorId
+  symbol: CryptoSymbol
 }
