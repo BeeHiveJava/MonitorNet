@@ -27,7 +27,15 @@ const open = (dialog: any, device: DeviceId, monitor: MonitorId) => {
     props: {
       modal: true,
       dismissableMask: true,
-      draggable: false
+      draggable: false,
+      style: {
+        width: "99vw"
+      },
+      pt: {
+        root: {
+          class: "sm:w-30rem"
+        }
+      }
     }
   } as DynamicDialogOptions)
 }

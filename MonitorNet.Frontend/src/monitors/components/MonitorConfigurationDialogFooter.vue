@@ -1,7 +1,7 @@
 <template>
-  <Transition name="fade">
-    <InlineMessage v-if="error" severity="error" class="w-full">An error occurred</InlineMessage>
-    <InlineMessage v-else-if="success" severity="success" class="w-full">Success</InlineMessage>
+  <Transition name="fade" class="w-full">
+    <InlineMessage v-if="error" severity="error">An error occurred</InlineMessage>
+    <InlineMessage v-else-if="success" severity="success">Success</InlineMessage>
   </Transition>
 
   <div class="flex justify-content-end gap-2">
@@ -28,6 +28,8 @@ const error = ref(false)
 const success = ref(false)
 
 const save = async () => {
+  saving.value = true
+
   try {
     await store.save(deviceId, monitorId, toValue(MonitorDialogActiveSymbol))
     await store.refresh()
