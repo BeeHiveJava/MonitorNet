@@ -7,7 +7,8 @@ export default [
     name: "home",
     component: () => import("./views/TheHome.vue"),
     meta: {
-      icon: MdiHome
+      icon: MdiHome,
+      anonymous: true
     }
   }
 ] as RouteRecordRaw[]

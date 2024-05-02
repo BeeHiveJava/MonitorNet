@@ -41,14 +41,15 @@ export default defineConfig({
           // Currently missing in the base library.
           const components = [
             "ButtonGroup",
-            "MeterGroup",
             "ConfirmPopup",
             "ConfirmDialog",
             "DynamicDialog",
+            "FloatLabel",
             "IconField",
             "InputIcon",
             "InputGroup",
-            "InputGroupAddon"
+            "InputGroupAddon",
+            "MeterGroup"
           ]
 
           if (components.includes(name)) {
