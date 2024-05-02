@@ -14,5 +14,5 @@
 <script setup lang="ts">
 import { useDeviceStore } from "@/devices"
 const store = useDeviceStore()
-useInterval(60 * 5 * 1000, { callback: store.refresh })
+useInterval(5 * 60 * 1000, { callback: store.refresh })
 </script>

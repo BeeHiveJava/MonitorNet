@@ -69,9 +69,11 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Skeleton: typeof import('primevue/skeleton')['default']
+    TheChart: typeof import('./src/charts/views/TheChart.vue')['default']
     TheDevices: typeof import('./src/devices/views/TheDevices.vue')['default']
     TheHome: typeof import('./src/home/views/TheHome.vue')['default']
     TheMonitors: typeof import('./src/monitors/views/TheMonitors.vue')['default']
     TheNavbar: typeof import('./src/utils/components/TheNavbar.vue')['default']
+    TradingViewWidget: typeof import('./src/charts/components/TradingViewWidget.vue')['default']
   }
 }

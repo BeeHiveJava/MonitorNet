@@ -1,5 +1,5 @@
 <template>
-  <Menubar :model="routes" class="mb-2">
+  <Menubar v-if="current.meta.navbar !== false" :model="routes" class="mb-2">
     <template #itemicon="{ item }">
       <component :is="item.meta.icon" class="mr-2" />
     </template>
@@ -20,7 +20,7 @@ import type { RouteRecordNormalized } from "vue-router"
 
 const current = useRoute()
 const router = useRouter()
-const routes = computed(() => router.getRoutes().map(toMenuItem))
+const routes = computed(() => router.getRoutes().filter(route => route.meta.navbar !== false).map(toMenuItem))
 
 const toMenuItem = (route: RouteRecordNormalized): MenuItem => {
   return {

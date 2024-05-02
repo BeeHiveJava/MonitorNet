@@ -25,6 +25,7 @@
 
 <script setup lang="ts">
 import { useSymbolSearch, type CryptoSymbol } from "@/symbols"
+import { DomUtils } from "@/utils"
 import type { AutoCompleteCompleteEvent, AutoCompleteItemSelectEvent } from "primevue/autocomplete"
 
 const model = ref("")
@@ -34,7 +35,7 @@ const emits = defineEmits<{
 }>()
 
 const input = ref("")
-const inputId = ref(`input-id-${Math.random()}`)
+const inputId = ref(DomUtils.randomElementId("input-id-"))
 const symbols = useSymbolSearch(input)
 
 const complete = (event: AutoCompleteCompleteEvent) => input.value = event.query
