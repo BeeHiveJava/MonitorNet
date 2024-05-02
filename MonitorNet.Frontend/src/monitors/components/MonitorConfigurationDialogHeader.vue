@@ -1,5 +1,5 @@
 <template>
-  <span class="font-semibold">Monitor {{ monitor?.index }} ({{ device?.name }})</span>
+  <span class="font-semibold">Monitor {{ monitor?.index ?? monitorId }} ({{ device?.name }})</span>
 </template>
 
 <script setup lang="ts">
