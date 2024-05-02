@@ -1,8 +1,8 @@
 <template>
-  <TheNavbar />
+  <TheNavbar v-if="$route.meta.navbar !== false" />
   <RouterView />
-  <ConfirmDialog />
-  <DynamicDialog />
+  <ConfirmDialog v-if="$route.meta.navbar !== false" />
+  <DynamicDialog v-if="$route.meta.navbar !== false" />
 </template>
 
 <style>

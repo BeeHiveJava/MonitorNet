@@ -30,6 +30,8 @@ const success = ref(false)
 
 const save = async () => {
   saving.value = true
+  error.value = false
+  success.value = false
 
   try {
     const data = { symbol: toValue(MonitorDialogActiveSymbol), rotation: toValue(MonitorDialogActiveRotation) }

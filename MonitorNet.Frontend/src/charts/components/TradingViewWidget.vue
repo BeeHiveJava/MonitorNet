@@ -24,22 +24,24 @@ const monitor = useMonitor(deviceId, monitorId)
 const symbol = computed(() => toValue(monitor)?.symbol ?? DefaultCryptoSymbol)
 const rotation = computed(() => toValue(monitor)?.rotation ?? "normal")
 
-const reload = async (id: string, symbol: CryptoSymbol) => {
+const load = async (id: string, symbol: CryptoSymbol) => {
   await until(widgetUtils.isReady).toBe(true)
   widgetUtils.load({ id, symbol })
 }
 
 onMounted(() => widget.value = DomUtils.addExternalScript("https://s3.tradingview.com/tv.js"))
 onUnmounted(() => DomUtils.removeElement(widget.value))
+
 useInterval(1 * 60 * 1000, { callback: monitorStore.refresh })
+useTimeout(100, { callback: async () => await load(toValue(widgetId), toValue(symbol)) })
 
 watch(rotation, (newValue, oldValue) => {
-  console.log(`Rotation changed: ${oldValue} => ${newValue}`)
+  console.info(`Rotation changed: ${oldValue} => ${newValue}`)
 })
 
 watch(symbol, async (newValue, oldValue) => {
-  console.log(`Symbol changed: ${oldValue.id} => ${newValue?.id}`)
-  await reload(toValue(widgetId), newValue)
+  console.info(`Symbol changed: ${oldValue.id} => ${newValue?.id}`)
+  await load(toValue(widgetId), newValue)
 })
 </script>
 

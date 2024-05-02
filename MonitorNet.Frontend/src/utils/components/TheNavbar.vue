@@ -1,5 +1,5 @@
 <template>
-  <Menubar v-if="current.meta.navbar !== false" :model="routes" class="mb-2">
+  <Menubar :model="routes" class="mb-2">
     <template #itemicon="{ item }">
       <component :is="item.meta.icon" class="mr-2" />
     </template>
