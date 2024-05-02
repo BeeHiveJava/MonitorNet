@@ -5,7 +5,6 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using MonitorNet.Functions.Api.Monitors.Interfaces;
 using MonitorNet.Functions.Api.Monitors.Models;
-using MonitorNet.Functions.Api.Symbols.Models;
 
 namespace MonitorNet.Functions.Api.Monitors.Functions;
 

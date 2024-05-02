@@ -7,8 +7,16 @@ param publisherName string
 @secure()
 param publisherEmail string
 
-param backendAppId string
-param frontendAppUri string
+param backendAppName string
+param frontendAppName string
+
+resource backend 'Microsoft.Web/sites@2023-01-01' existing = {
+  name: backendAppName
+}
+
+resource frontend 'Microsoft.Web/staticSites@2023-01-01' existing = {
+  name: frontendAppName
+}
 
 resource management 'Microsoft.ApiManagement/service@2022-08-01' = {
   name: 'apim${application}${environment}001'
@@ -76,7 +84,7 @@ resource functionAppKey 'Microsoft.ApiManagement/service/namedValues@2022-08-01'
   parent: management
   properties: {
     displayName: 'FunctionAppKey'
-    value: listkeys('${backendAppId}/host/default', '2023-01-01').functionKeys.default
+    value: listkeys('${backend.id}/host/default', '2023-01-01').functionKeys.default
     secret: true
   }
 }
@@ -86,7 +94,7 @@ resource frontendAppHost 'Microsoft.ApiManagement/service/namedValues@2022-08-01
   parent: management
   properties: {
     displayName: 'FrontendAppHost'
-    value: frontendAppUri
+    value: 'https://${frontend.properties.customDomains[0] ?? frontend.properties.defaultHostname}'
   }
 }
 

@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using MonitorNet.Functions.Api.Symbols.Models;
 
 namespace MonitorNet.Functions.Api.Monitors.Models;

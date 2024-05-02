@@ -4,10 +4,13 @@ param location string
 
 param serverFarmId string
 param storageAccountName string
-@secure()
-param storageAccountKey string
+
 @secure()
 param devicesToken string
+
+resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+  name: storageAccountName
+}
 
 resource app 'Microsoft.Web/sites@2023-01-01' = {
   name: 'fncapi${application}${environment}001'
@@ -26,12 +29,16 @@ resource app 'Microsoft.Web/sites@2023-01-01' = {
           value: devicesToken
         }
         {
+          name: 'Monitors:StorageUri'
+          value: storage.properties.primaryEndpoints.table
+        }
+        {
           name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${storageAccountKey}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${storage.listKeys().keys[0].value}'
         }
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${storageAccountKey}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${az.environment().suffixes.storage};AccountKey=${storage.listKeys().keys[0].value}'
         }
         {
           name: 'WEBSITE_CONTENTSHARE'
@@ -51,6 +58,22 @@ resource app 'Microsoft.Web/sites@2023-01-01' = {
   tags: {
     application: application
     environment: environment
+  }
+}
+
+@description('https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage#storage-table-data-contributor')
+resource storageRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  scope: subscription()
+  name: '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
+}
+
+resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storage.id, app.id, storageRoleDefinition.id)
+  scope: storage
+  properties: {
+    roleDefinitionId: storageRoleDefinition.id
+    principalId: app.identity.principalId
+    principalType: 'ServicePrincipal'
   }
 }
 

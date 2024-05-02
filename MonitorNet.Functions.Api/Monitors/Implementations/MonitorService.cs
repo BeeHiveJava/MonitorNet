@@ -1,56 +1,35 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using MonitorNet.Functions.Api.Monitors.Interfaces;
+﻿using MonitorNet.Functions.Api.Monitors.Interfaces;
 using MonitorNet.Functions.Api.Monitors.Models;
-using MonitorNet.Functions.Api.Symbols.Models;
 
 namespace MonitorNet.Functions.Api.Monitors.Implementations;
 
-internal class MonitorService(IMemoryCache cache) : IMonitorService
+internal class MonitorService(IMonitorStore store) : IMonitorService
 {
-    public async Task<IEnumerable<DeviceMonitor>> GetAllAsync(CancellationToken ct = default)
+    public Task<IEnumerable<DeviceMonitor>> GetAllAsync(CancellationToken ct = default)
     {
-        return await GetMonitorsAsync(ct);
+        return store.GetAllAsync(ct);
     }
 
-    public async Task<IEnumerable<DeviceMonitor>> GetAllAsync(string device, CancellationToken ct = default)
+    public Task<IEnumerable<DeviceMonitor>> GetAllAsync(string device, CancellationToken ct = default)
     {
-        var monitors = await GetAllAsync(ct);
-        return monitors.Where(monitor => monitor.DeviceId == device);
+        return store.GetAllAsync(device, ct);
     }
 
-    public async Task<DeviceMonitor?> GetOneAsync(string device, int index, CancellationToken ct = default)
+    public Task<DeviceMonitor?> GetOneAsync(string device, int index, CancellationToken ct = default)
     {
-        var monitors = await GetAllAsync(device, ct);
-        return monitors.SingleOrDefault(monitor => monitor.Index == index);
+        return store.GetOneAsync(device, index, ct);
     }
 
-    public async Task SaveAsync(string device, int index, DeviceMonitorSaveDto data, CancellationToken ct = default)
+    public Task SaveAsync(string device, int index, DeviceMonitorSaveDto data, CancellationToken ct = default)
     {
-        var monitor = await GetOrCreateMonitorAsync(device, index, ct);
-        monitor.Symbol = data.Symbol;
-        monitor.Rotation = data.Rotation;
-    }
-
-    private async Task<DeviceMonitor> GetOrCreateMonitorAsync(string device, int index, CancellationToken ct)
-    {
-        var monitor = await GetOneAsync(device, index, ct);
-
-        if (monitor is null)
+        var monitor = new DeviceMonitor
         {
-            monitor = new DeviceMonitor { DeviceId = device, Index = index };
-            (await GetMonitorsAsync(ct)).Add(monitor);
-        }
+            DeviceId = device,
+            Index = index,
+            Symbol = data.Symbol,
+            Rotation = data.Rotation
+        };
 
-        return monitor;
-    }
-
-    private async Task<ICollection<DeviceMonitor>> GetMonitorsAsync(CancellationToken ct)
-    {
-        var monitors = await cache.GetOrCreateAsync(
-            "monitors",
-            _ => Task.FromResult<ICollection<DeviceMonitor>>([])
-        );
-
-        return monitors!;
+        return store.SaveAsync(monitor, ct);
     }
 }

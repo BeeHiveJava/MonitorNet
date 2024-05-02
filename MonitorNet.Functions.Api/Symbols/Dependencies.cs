@@ -9,8 +9,8 @@ internal static class Dependencies
 {
     public static IServiceCollection AddMonitorNetSymbols(this IServiceCollection services)
     {
-        services.AddHttpClient<ISymbolService, SymbolService>();
         services.AddOptions<SymbolSettings>().BindConfiguration("Symbols");
+        services.AddHttpClient<ISymbolService, SymbolService>();
 
         return services;
     }

@@ -46,7 +46,6 @@ module backend './backend.bicep' = {
     location: location
     serverFarmId: plan.id
     storageAccountName: storage.name
-    storageAccountKey: storage.listKeys().keys[0].value
     devicesToken: fncDevicesToken
   }
 }
@@ -68,8 +67,8 @@ module management './management.bicep' = {
     location: location
     publisherName: apimPublisherName
     publisherEmail: apimPublisherEmail
-    backendAppId: backend.outputs.id
-    frontendAppUri: frontend.outputs.uri
+    backendAppName: backend.outputs.name
+    frontendAppName: frontend.outputs.name
   }
 }
 
