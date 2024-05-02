@@ -7,4 +7,5 @@ export interface Monitor {
   rotation: MonitorRotation
 }
 
-export type MonitorRotation = "normal" | "flipped"
+export const MonitorRotations = ["normal", "flipped"]
+export type MonitorRotation = typeof MonitorRotations[number]

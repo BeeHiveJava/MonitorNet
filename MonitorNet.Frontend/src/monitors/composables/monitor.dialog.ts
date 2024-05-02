@@ -1,11 +1,11 @@
 import { type DeviceId } from "@/devices"
-import { useMonitor, type MonitorId } from "@/monitors"
-import type { CryptoSymbol } from "@/symbols"
+import { useMonitor, type MonitorId, type MonitorRotation } from "@/monitors"
+import { DefaultCryptoSymbol, type CryptoSymbol } from "@/symbols"
 import type { DynamicDialogOptions } from "primevue/dynamicdialogoptions"
 import { useDialog } from "primevue/usedialog"
 
-export const MonitorDialogActiveSymbol = ref<CryptoSymbol>({ id: "BTCUSDT" })
-export const MonitorDialogActiveRotation = ref<"normal" | "flipped">("normal")
+export const MonitorDialogActiveSymbol = ref<CryptoSymbol>(DefaultCryptoSymbol)
+export const MonitorDialogActiveRotation = ref<MonitorRotation>("normal")
 
 export type MonitorDialogOpen = (device: DeviceId, monitor: MonitorId) => void
 export type MonitorDialogOpenData = { device: DeviceId, monitor: MonitorId }
@@ -17,7 +17,7 @@ export const useMonitorConfigurationDialog = (): MonitorDialogOpen => {
 
 const open = (dialog: any, device: DeviceId, monitor: MonitorId) => {
   const value = toValue(useMonitor(device, monitor))
-  MonitorDialogActiveSymbol.value = value?.symbol ?? { id: "BTCUSDT" }
+  MonitorDialogActiveSymbol.value = value?.symbol ?? DefaultCryptoSymbol
   MonitorDialogActiveRotation.value = value?.rotation ?? "normal"
 
   dialog.open(body, {

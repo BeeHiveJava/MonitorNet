@@ -6,7 +6,7 @@
 
   <div class="flex justify-content-end gap-2">
     <Button label="Close" @click="close" severity="secondary" outlined />
-    <Button label="Save" @click="save" :loading="saving" />
+    <Button label="Save" @click="save" :loading="saving" :disabled="invalid" />
   </div>
 </template>
 
@@ -23,6 +23,7 @@ const data = computed<MonitorDialogOpenData>(() => dialog!.value.data)
 const deviceId = ref()
 const monitorId = ref()
 
+const invalid = computed(() => toValue(MonitorDialogActiveSymbol) === undefined || (toValue(MonitorDialogActiveRotation) ?? "").length <= 0)
 const saving = ref(false)
 const error = ref(false)
 const success = ref(false)

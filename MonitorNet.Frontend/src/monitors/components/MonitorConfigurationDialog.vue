@@ -6,10 +6,13 @@
     <div class="mb-2" />
 
     <span class="col-12">Rotation</span>
-    <Dropdown v-model="MonitorDialogActiveRotation" :options="['Normal', 'Flipped']" class="col-12 mt-1" />
+    <Dropdown v-model="MonitorDialogActiveRotation" :options="rotations" :option-label="label" class="col-12 mt-1" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { MonitorDialogActiveRotation, MonitorDialogActiveSymbol } from "@/monitors"
+import { MonitorDialogActiveRotation, MonitorDialogActiveSymbol, MonitorRotations } from "@/monitors"
+
+const rotations = computed(() => MonitorRotations)
+const label = (data: string) => data[0].toUpperCase() + data.slice(1)
 </script>
