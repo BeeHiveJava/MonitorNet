@@ -1,6 +1,6 @@
 <template>
   <div @click="() => dialog(id, index)" style="cursor: pointer;">
-    <DeviceListItemValue :title="title" :value="symbol" v-slot="{ value }">
+    <DeviceListItemValue :title="title" :value="symbol" :transition-key="symbol?.id" v-slot="{ value }">
       <CryptoSymbol :symbol="value" />
     </DeviceListItemValue>
   </div>
