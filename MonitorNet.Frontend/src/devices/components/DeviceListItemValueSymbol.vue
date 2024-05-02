@@ -1,9 +1,9 @@
 <template>
-  <DeviceListItemValue :title="title" :value="monitor?.symbol" v-slot="{ value }">
-    <div @click="() => dialog(device, monitor)" style="cursor: pointer;">
+  <div @click="() => dialog(id, index)" style="cursor: pointer;">
+    <DeviceListItemValue :title="title" :value="monitor?.symbol" v-slot="{ value }">
       <CryptoSymbol :symbol="value" />
-    </div>
-  </DeviceListItemValue>
+    </DeviceListItemValue>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -2,7 +2,7 @@ import type { MaybeDeviceRefOrGetter } from "@/devices"
 import { useMonitorConfigurationDialog, type MonitorDialogOpen } from "@/monitors"
 import type { MenuItem, MenuItemCommandEvent } from "primevue/menuitem"
 import { useConfirm } from "primevue/useconfirm"
-import MdiMonitors from "~icons/mdi/monitors"
+import MdiMonitor from "~icons/mdi/monitor"
 import MdiReload from "~icons/mdi/reload"
 import MdiRestart from "~icons/mdi/restart"
 import MdiShutdown from "~icons/mdi/shutdown"
@@ -19,12 +19,12 @@ const monitors = (dialog: MonitorDialogOpen, device: MaybeDeviceRefOrGetter): Me
     {
       label: "Monitor 1",
       command: () => dialog(device, 1),
-      meta: { icon: MdiMonitors }
+      meta: { icon: MdiMonitor }
     },
     {
       label: "Monitor 2",
       command: () => dialog(device, 2),
-      meta: { icon: MdiMonitors }
+      meta: { icon: MdiMonitor }
     }
   ]
 })

@@ -1,5 +1,5 @@
 import { toDeviceId, type DeviceId } from "@/devices"
-import { toMonitorId, type Monitor, type MonitorId } from "@/monitors"
+import { toMonitorId, type Monitor, type MonitorId, type MonitorRotation } from "@/monitors"
 import type { CryptoSymbol } from "@/symbols"
 import { useMonitorNetApi } from "@/utils"
 import type { UseFetchOptions } from "@vueuse/core"
@@ -12,8 +12,8 @@ export const useMonitorStore = defineStore("monitors", () => {
     await external.execute(true)
   }
 
-  const save = async (device: DeviceId, monitor: MonitorId, symbol: CryptoSymbol) => {
-    const request: MonitorSaveOneRequest = { device, monitor, symbol }
+  const save = async (device: DeviceId, monitor: MonitorId, data: MonitorSaveData) => {
+    const request: MonitorSaveOneRequest = { device, monitor, data }
     const options: UseFetchOptions = { immediate: false, timeout: 3000 }
     await useMonitorSaveOne(request, options).execute(true)
   }
@@ -66,7 +66,7 @@ const useMonitorSaveOne = (request: MonitorSaveOneRequest, options?: UseFetchOpt
   const monitor = toMonitorId(request.monitor)
 
   const api = useMonitorNetApi(`api/monitors/${device}/${monitor}`, options ?? { immediate: false })
-  const { data, error, execute } = api.put(request.symbol)
+  const { data, error, execute } = api.put(request.data)
 
   return { data, error, execute }
 }
@@ -74,5 +74,10 @@ const useMonitorSaveOne = (request: MonitorSaveOneRequest, options?: UseFetchOpt
 type MonitorSaveOneRequest = {
   device: DeviceId
   monitor: MonitorId
+  data: MonitorSaveData
+}
+
+type MonitorSaveData = {
   symbol: CryptoSymbol
+  rotation: MonitorRotation
 }

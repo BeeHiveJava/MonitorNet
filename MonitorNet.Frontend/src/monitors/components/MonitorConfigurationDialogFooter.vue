@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { toDeviceId } from "@/devices"
-import { MonitorDialogActiveSymbol, toMonitorId, useMonitorStore, type MonitorDialogOpenData } from "@/monitors"
+import { MonitorDialogActiveRotation, MonitorDialogActiveSymbol, toMonitorId, useMonitorStore, type MonitorDialogOpenData } from "@/monitors"
 import type { DynamicDialogOptions } from "primevue/dynamicdialogoptions"
 
 const store = useMonitorStore()
@@ -31,7 +31,8 @@ const save = async () => {
   saving.value = true
 
   try {
-    await store.save(deviceId, monitorId, toValue(MonitorDialogActiveSymbol))
+    const data = { symbol: toValue(MonitorDialogActiveSymbol), rotation: toValue(MonitorDialogActiveRotation) }
+    await store.save(deviceId, monitorId, data)
     await store.refresh()
     success.value = true
   } catch (cause) {
