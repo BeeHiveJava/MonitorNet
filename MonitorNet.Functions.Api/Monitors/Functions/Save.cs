@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using MonitorNet.Functions.Api.Monitors.Interfaces;
+using MonitorNet.Functions.Api.Monitors.Models;
 using MonitorNet.Functions.Api.Symbols.Models;
 
 namespace MonitorNet.Functions.Api.Monitors.Functions;
@@ -14,7 +15,7 @@ internal class Save(IMonitorService service)
     [OpenApiOperation(operationId: "MonitorsSave", tags: ["Monitors"])]
     [OpenApiParameter(name: "device", Type = typeof(string), Required = true)]
     [OpenApiParameter(name: "index", Type = typeof(int), Required = true)]
-    [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Symbol))]
+    [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(DeviceMonitorSaveDto))]
     [OpenApiResponseWithoutBody(HttpStatusCode.OK)]
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     public async Task<IActionResult> SaveAsync(
@@ -23,13 +24,13 @@ internal class Save(IMonitorService service)
         string device,
         int index)
     {
-        var symbol = await request.ReadFromJsonAsync<Symbol>(request.HttpContext.RequestAborted);
-        if (symbol is null)
+        var data = await request.ReadFromJsonAsync<DeviceMonitorSaveDto>(request.HttpContext.RequestAborted);
+        if (data is null)
         {
             return new BadRequestResult();
         }
 
-        await service.SaveAsync(device, index, symbol, request.HttpContext.RequestAborted);
+        await service.SaveAsync(device, index, data, request.HttpContext.RequestAborted);
         return new OkResult();
     }
 }

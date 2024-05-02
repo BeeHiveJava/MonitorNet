@@ -11,5 +11,5 @@ public interface IMonitorService
 
     Task<DeviceMonitor?> GetOneAsync(string device, int index, CancellationToken ct = default);
 
-    Task SaveAsync(string device, int index, Symbol symbol, CancellationToken ct = default);
+    Task SaveAsync(string device, int index, DeviceMonitorSaveDto data, CancellationToken ct = default);
 }

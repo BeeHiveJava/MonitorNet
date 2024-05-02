@@ -12,4 +12,6 @@ public record DeviceMonitor
     public int Index { get; init; }
 
     public Symbol? Symbol { get; set; }
+
+    public string? Rotation { get; set; }
 }

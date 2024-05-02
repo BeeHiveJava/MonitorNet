@@ -24,10 +24,11 @@ internal class MonitorService(IMemoryCache cache) : IMonitorService
         return monitors.SingleOrDefault(monitor => monitor.Index == index);
     }
 
-    public async Task SaveAsync(string device, int index, Symbol symbol, CancellationToken ct = default)
+    public async Task SaveAsync(string device, int index, DeviceMonitorSaveDto data, CancellationToken ct = default)
     {
         var monitor = await GetOrCreateMonitorAsync(device, index, ct);
-        monitor.Symbol = symbol;
+        monitor.Symbol = data.Symbol;
+        monitor.Rotation = data.Rotation;
     }
 
     private async Task<DeviceMonitor> GetOrCreateMonitorAsync(string device, int index, CancellationToken ct)
