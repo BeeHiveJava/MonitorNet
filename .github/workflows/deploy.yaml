@@ -4,9 +4,14 @@ concurrency: deploy
 
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branches:
-    - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: deployment environment
+        required: true
+        type: choice
+        options: [production]
+        default: production
 
 jobs:
   infrastructure:
