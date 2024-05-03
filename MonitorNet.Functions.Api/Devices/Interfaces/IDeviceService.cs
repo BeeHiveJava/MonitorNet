@@ -7,4 +7,10 @@ public interface IDeviceService
     Task<IEnumerable<Device>> GetAllAsync(CancellationToken ct = default);
 
     Task<Device?> GetOneAsync(string id, CancellationToken ct = default);
+
+    Task RestartAsync(Device device, CancellationToken ct = default);
+
+    Task RebootAsync(Device device, CancellationToken ct = default);
+
+    Task ShutdownAsync(Device device, CancellationToken ct = default);
 }

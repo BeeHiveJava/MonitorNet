@@ -15,6 +15,9 @@ internal record DeviceResultEntry
     [JsonPropertyName("id")]
     public long? Id { get; init; }
 
+    [JsonPropertyName("uuid")]
+    public string? UniqueId { get; init; }
+
     [JsonPropertyName("device_name")]
     public string? Name { get; init; }
 

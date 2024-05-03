@@ -6,6 +6,16 @@ public record DeviceSettings
 
     public Uri DeviceUri => new(BaseUri, $"/v6/device?$expand={Expands}");
 
+    public Uri SupervisorUri { get; init; } = new Uri("https://api.balena-cloud.com/supervisor/");
+
+    public Uri RestartUri => new(SupervisorUri, "v1/restart");
+
+    public Uri RebootUri => new(SupervisorUri, "v1/reboot");
+
+    public Uri ShutdownUri => new(SupervisorUri, "v1/shutdown");
+
+    public long AppId { get; set; } = 2107072;
+
     public string Token { get; init; } = default!;
 
     private const string Expands = $"{DeviceTypeExpand},{DeviceCurrentReleaseExpand},{DeviceTargetReleaseExpand}";

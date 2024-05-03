@@ -7,6 +7,9 @@ public record Device
 {
     public string Id { get; init; } = default!;
 
+    [JsonPropertyName("uuid")]
+    public string UniqueId { get; init; } = default!;
+
     public string Name { get; init; } = default!;
 
     public string Status { get; init; } = default!;

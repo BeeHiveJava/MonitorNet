@@ -7,6 +7,7 @@ internal static class DeviceExtensions
     public static Device ToDevice(this DeviceResultEntry entry) => new()
     {
         Id = Convert.ToString(entry.Id)!,
+        UniqueId = entry.UniqueId!,
         Name = entry.Name!,
         Status = entry.IsOnline == true ? "Online" : "Offline",
         Type = entry.Type.FirstOrDefault()?.Name ?? "Unknown",
