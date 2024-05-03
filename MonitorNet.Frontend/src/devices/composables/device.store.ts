@@ -10,13 +10,31 @@ export const useDeviceStore = defineStore("devices", () => {
     await external.execute(true)
   }
 
+  const restart = async (device: DeviceId) => {
+    const request: DeviceActionRequest = { device, action: "restart" }
+    const options: UseFetchOptions = { immediate: false }
+    await useDeviceAction(request, options).execute(true)
+  }
+
+  const reboot = async (device: DeviceId) => {
+    const request: DeviceActionRequest = { device, action: "reboot" }
+    const options: UseFetchOptions = { immediate: false }
+    await useDeviceAction(request, options).execute(true)
+  }
+
+  const shutdown = async (device: DeviceId) => {
+    const request: DeviceActionRequest = { device, action: "shutdown" }
+    const options: UseFetchOptions = { immediate: false }
+    await useDeviceAction(request, options).execute(true)
+  }
+
   watchEffect(() => {
     if (external.data.value) {
       devices.value = external.data.value
     }
   })
 
-  return { devices, refresh }
+  return { devices, refresh, restart, reboot, shutdown }
 })
 
 export const useDevice = (device: DeviceId) => {
@@ -38,3 +56,15 @@ const useDeviceGetAll = (options?: UseFetchOptions) => {
   const { data, error, execute } = api.get().json<Device[]>()
   return { data, error, execute }
 }
+
+const useDeviceAction = (request: DeviceActionRequest, options?: UseFetchOptions) => {
+  const device = toDeviceId(request.device)
+  const action = request.action
+
+  const api = useMonitorNetApi(`api/devices/${device}/${action}`, options ?? { immediate: false })
+  const { error, execute } = api.post()
+  return { error, execute }
+}
+
+type DeviceAction = "restart" | "reboot" | "shutdown"
+type DeviceActionRequest = { device: DeviceId, action: DeviceAction }

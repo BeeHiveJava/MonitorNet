@@ -78,6 +78,7 @@ declare module 'vue' {
     TheHome: typeof import('./src/home/views/TheHome.vue')['default']
     TheMonitors: typeof import('./src/monitors/views/TheMonitors.vue')['default']
     TheNavbar: typeof import('./src/utils/components/TheNavbar.vue')['default']
+    Toast: typeof import('primevue/toast')['default']
     TradingViewWidget: typeof import('./src/charts/components/TradingViewWidget.vue')['default']
   }
 }

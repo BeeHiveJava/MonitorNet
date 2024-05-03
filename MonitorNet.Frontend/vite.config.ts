@@ -49,7 +49,8 @@ export default defineConfig({
             "InputIcon",
             "InputGroup",
             "InputGroupAddon",
-            "MeterGroup"
+            "MeterGroup",
+            "Toast"
           ]
 
           if (components.includes(name)) {
