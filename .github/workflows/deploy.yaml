@@ -7,15 +7,16 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: deployment environment
+        description: Deployment Environment
         required: true
         type: choice
-        options: [production]
-        default: production
+        options: [Development, Production]
+        default: Development
 
 jobs:
   infrastructure:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
 
     outputs:
       apim_name: ${{ steps.deploy.outputs.apim_name }}
@@ -49,6 +50,7 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     needs: infrastructure
+    environment: ${{ inputs.environment }}
 
     env:
       BACKEND_DIRECTORY: MonitorNet.Functions.Api
@@ -99,6 +101,7 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     needs: infrastructure
+    environment: ${{ inputs.environment }}
 
     env:
       FRONTEND_DIRECTORY: MonitorNet.Frontend
