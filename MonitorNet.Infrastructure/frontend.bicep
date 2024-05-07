@@ -2,7 +2,7 @@ param application string
 param environment string
 param location string
 
-resource app 'Microsoft.Web/staticSites@2023-01-01' = {
+resource app 'Microsoft.Web/staticSites@2023-12-01' = {
   name: 'swa${application}${environment}001'
   location: location
   sku: {
