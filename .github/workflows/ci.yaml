@@ -1,6 +1,5 @@
 ---
 name: ci
-concurrency: deploy
 
 # yamllint disable-line rule:truthy
 on:
@@ -15,7 +14,10 @@ on:
 jobs:
   infrastructure:
     runs-on: ubuntu-latest
+
     environment: Development
+    concurrency: Development
+
     steps:
     - name: Checkout code
       uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
@@ -39,7 +41,7 @@ jobs:
 
   backend:
     runs-on: ubuntu-latest
-    environment: Development
+
     steps:
     - name: Checkout code
       uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
@@ -60,7 +62,6 @@ jobs:
 
   frontend:
     runs-on: ubuntu-latest
-    environment: Development
 
     env:
       FRONTEND_DIRECTORY: MonitorNet.Frontend

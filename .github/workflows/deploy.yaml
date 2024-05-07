@@ -1,6 +1,5 @@
 ---
 name: deploy
-concurrency: deploy
 
 # yamllint disable-line rule:truthy
 on:
@@ -16,7 +15,9 @@ on:
 jobs:
   infrastructure:
     runs-on: ubuntu-latest
+
     environment: ${{ inputs.environment }}
+    concurrency: ${{ inputs.environment }}
 
     outputs:
       apim_name: ${{ steps.deploy.outputs.apim_name }}
@@ -50,7 +51,9 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     needs: infrastructure
+
     environment: ${{ inputs.environment }}
+    concurrency: ${{ inputs.environment }}
 
     env:
       BACKEND_DIRECTORY: MonitorNet.Functions.Api
@@ -101,7 +104,9 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     needs: infrastructure
+
     environment: ${{ inputs.environment }}
+    concurrency: ${{ inputs.environment }}
 
     env:
       FRONTEND_DIRECTORY: MonitorNet.Frontend
