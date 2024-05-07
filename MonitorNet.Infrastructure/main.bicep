@@ -25,7 +25,7 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   }
 }
 
-resource plan 'Microsoft.Web/serverfarms@2023-01-01' = {
+resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: 'asp${application}${environment}001'
   location: location
   sku: {
