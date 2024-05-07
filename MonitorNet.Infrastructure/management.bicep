@@ -18,7 +18,7 @@ resource frontend 'Microsoft.Web/staticSites@2023-01-01' existing = {
   name: frontendAppName
 }
 
-resource management 'Microsoft.ApiManagement/service@2022-08-01' = {
+resource management 'Microsoft.ApiManagement/service@2023-05-01-preview' = {
   name: 'apim${application}${environment}001'
   location: location
   sku: {
@@ -35,7 +35,7 @@ resource management 'Microsoft.ApiManagement/service@2022-08-01' = {
   }
 }
 
-resource api 'Microsoft.ApiManagement/service/apis@2022-08-01' = {
+resource api 'Microsoft.ApiManagement/service/apis@2023-05-01-preview' = {
   name: 'api'
   parent: management
   properties: {
@@ -46,7 +46,7 @@ resource api 'Microsoft.ApiManagement/service/apis@2022-08-01' = {
   }
 }
 
-resource policy 'Microsoft.ApiManagement/service/apis/policies@2022-08-01' = {
+resource policy 'Microsoft.ApiManagement/service/apis/policies@2023-05-01-preview' = {
   name: 'policy'
   parent: api
   properties: {
@@ -79,7 +79,7 @@ resource policy 'Microsoft.ApiManagement/service/apis/policies@2022-08-01' = {
   }
 }
 
-resource functionAppKey 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
+resource functionAppKey 'Microsoft.ApiManagement/service/namedValues@2023-05-01-preview' = {
   name: 'FunctionAppKey'
   parent: management
   properties: {
@@ -89,7 +89,7 @@ resource functionAppKey 'Microsoft.ApiManagement/service/namedValues@2022-08-01'
   }
 }
 
-resource frontendAppHost 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
+resource frontendAppHost 'Microsoft.ApiManagement/service/namedValues@2023-05-01-preview' = {
   name: 'FrontendAppHost'
   parent: management
   properties: {
@@ -98,7 +98,7 @@ resource frontendAppHost 'Microsoft.ApiManagement/service/namedValues@2022-08-01
   }
 }
 
-resource frontendAppLocalHost 'Microsoft.ApiManagement/service/namedValues@2022-08-01' = {
+resource frontendAppLocalHost 'Microsoft.ApiManagement/service/namedValues@2023-05-01-preview' = {
   name: 'FrontendAppLocalHost'
   parent: management
   properties: {

@@ -62,7 +62,7 @@ resource app 'Microsoft.Web/sites@2023-01-01' = {
 }
 
 @description('https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage#storage-table-data-contributor')
-resource storageRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+resource storageRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-05-01-preview' existing = {
   scope: subscription()
   name: '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
 }
