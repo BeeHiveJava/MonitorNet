@@ -10,7 +10,7 @@ param publisherEmail string
 param backendAppName string
 param frontendAppName string
 
-resource backend 'Microsoft.Web/sites@2023-01-01' existing = {
+resource backend 'Microsoft.Web/sites@2023-12-01' existing = {
   name: backendAppName
 }
 

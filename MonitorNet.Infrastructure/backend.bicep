@@ -12,7 +12,7 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
   name: storageAccountName
 }
 
-resource app 'Microsoft.Web/sites@2023-01-01' = {
+resource app 'Microsoft.Web/sites@2023-12-01' = {
   name: 'fncapi${application}${environment}001'
   location: location
   kind: 'functionapp'
