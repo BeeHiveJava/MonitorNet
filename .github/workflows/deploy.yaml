@@ -53,7 +53,7 @@ jobs:
     needs: infrastructure
 
     environment: ${{ inputs.environment }}
-    concurrency: ${{ inputs.environment }}
+    concurrency: ${{ inputs.environment }}-backend
 
     env:
       BACKEND_DIRECTORY: MonitorNet.Functions.Api
@@ -106,7 +106,7 @@ jobs:
     needs: infrastructure
 
     environment: ${{ inputs.environment }}
-    concurrency: ${{ inputs.environment }}
+    concurrency: ${{ inputs.environment }}-frontend
 
     env:
       FRONTEND_DIRECTORY: MonitorNet.Frontend
