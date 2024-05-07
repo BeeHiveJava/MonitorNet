@@ -94,7 +94,7 @@ resource frontendAppHost 'Microsoft.ApiManagement/service/namedValues@2023-05-01
   parent: management
   properties: {
     displayName: 'FrontendAppHost'
-    value: 'https://${frontend.properties.customDomains[0] ?? frontend.properties.defaultHostname}'
+    value: 'https://${empty(frontend.properties.customDomains) ? frontend.properties.defaultHostname : frontend.properties.customDomains[0]}'
   }
 }
 

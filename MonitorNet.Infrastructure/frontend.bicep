@@ -18,4 +18,4 @@ resource app 'Microsoft.Web/staticSites@2023-01-01' = {
 
 output id string = app.id
 output name string = app.name
-output uri string = 'https://${app.properties.customDomains[0] ?? app.properties.defaultHostname}'
+output uri string = 'https://${empty(app.properties.customDomains) ? app.properties.defaultHostname : app.properties.customDomains[0]}'
