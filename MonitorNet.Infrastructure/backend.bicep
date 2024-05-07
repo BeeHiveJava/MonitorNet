@@ -8,7 +8,7 @@ param storageAccountName string
 @secure()
 param devicesToken string
 
-resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+resource storage 'Microsoft.Storage/storageAccounts@2023-04-01' existing = {
   name: storageAccountName
 }
 
