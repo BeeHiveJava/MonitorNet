@@ -22,7 +22,7 @@
   "devDependencies": {
     "@iconify-json/mdi": "1.1.66",
     "@rushstack/eslint-patch": "1.10.3",
-    "@vitejs/plugin-vue": "5.0.4",
+    "@vitejs/plugin-vue": "5.0.5",
     "@vue/compiler-sfc": "3.4.27",
     "@vue/eslint-config-typescript": "13.0.0",
     "@vue/tsconfig": "0.5.1",
