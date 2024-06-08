@@ -9,7 +9,7 @@ param apimPublisherName string
 @secure()
 param apimPublisherEmail string
 
-resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
+resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: 'st${application}${environment}001'
   location: location
   kind: 'StorageV2'
