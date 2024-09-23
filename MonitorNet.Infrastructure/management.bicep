@@ -35,7 +35,7 @@ resource management 'Microsoft.ApiManagement/service@2023-05-01-preview' = {
   }
 }
 
-resource api 'Microsoft.ApiManagement/service/apis@2023-05-01-preview' = {
+resource api 'Microsoft.ApiManagement/service/apis@2024-05-01' = {
   name: 'api'
   parent: management
   properties: {
