@@ -79,7 +79,7 @@ resource policy 'Microsoft.ApiManagement/service/apis/policies@2023-05-01-previe
   }
 }
 
-resource functionAppKey 'Microsoft.ApiManagement/service/namedValues@2023-05-01-preview' = {
+resource functionAppKey 'Microsoft.ApiManagement/service/namedValues@2024-05-01' = {
   name: 'FunctionAppKey'
   parent: management
   properties: {
@@ -89,7 +89,7 @@ resource functionAppKey 'Microsoft.ApiManagement/service/namedValues@2023-05-01-
   }
 }
 
-resource frontendAppHost 'Microsoft.ApiManagement/service/namedValues@2023-05-01-preview' = {
+resource frontendAppHost 'Microsoft.ApiManagement/service/namedValues@2024-05-01' = {
   name: 'FrontendAppHost'
   parent: management
   properties: {
@@ -98,7 +98,7 @@ resource frontendAppHost 'Microsoft.ApiManagement/service/namedValues@2023-05-01
   }
 }
 
-resource frontendAppLocalHost 'Microsoft.ApiManagement/service/namedValues@2023-05-01-preview' = {
+resource frontendAppLocalHost 'Microsoft.ApiManagement/service/namedValues@2024-05-01' = {
   name: 'FrontendAppLocalHost'
   parent: management
   properties: {
