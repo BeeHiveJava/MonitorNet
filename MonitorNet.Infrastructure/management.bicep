@@ -46,7 +46,7 @@ resource api 'Microsoft.ApiManagement/service/apis@2023-05-01-preview' = {
   }
 }
 
-resource policy 'Microsoft.ApiManagement/service/apis/policies@2023-05-01-preview' = {
+resource policy 'Microsoft.ApiManagement/service/apis/policies@2024-05-01' = {
   name: 'policy'
   parent: api
   properties: {
