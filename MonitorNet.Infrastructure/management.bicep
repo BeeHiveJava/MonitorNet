@@ -18,7 +18,7 @@ resource frontend 'Microsoft.Web/staticSites@2023-01-01' existing = {
   name: frontendAppName
 }
 
-resource management 'Microsoft.ApiManagement/service@2023-05-01-preview' = {
+resource management 'Microsoft.ApiManagement/service@2024-05-01' = {
   name: 'apim${application}${environment}001'
   location: location
   sku: {
