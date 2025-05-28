@@ -14,7 +14,7 @@ resource backend 'Microsoft.Web/sites@2024-04-01' existing = {
   name: backendAppName
 }
 
-resource frontend 'Microsoft.Web/staticSites@2024-04-01' existing = {
+resource frontend 'Microsoft.Web/staticSites@2024-11-01' existing = {
   name: frontendAppName
 }
 
